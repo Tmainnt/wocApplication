@@ -3,9 +3,8 @@ import 'package:woc/theme/widget_color.dart';
 
 class CustomTextField extends StatefulWidget {
   final String _topic;
-  final bool _isObscure;
+  bool _isObscure;
   final WidgetColor widgetColor = WidgetColor();
-  final TextEditingController textEditingController = TextEditingController();
   final String _textInputType;
 
   CustomTextField({
@@ -22,6 +21,8 @@ class CustomTextField extends StatefulWidget {
 }
 
 class CustomTextFieldState extends State<CustomTextField> {
+  final TextEditingController textEditingController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -30,9 +31,11 @@ class CustomTextFieldState extends State<CustomTextField> {
         Text(widget._topic, style: TextStyle(fontWeight: FontWeight.bold)),
         SizedBox(height: 8),
         Container(
+          padding: EdgeInsets.only(left: 3, right: 3),
           decoration: BoxDecoration(
+            color: Colors.white,
             border: BoxBorder.all(color: widget.widgetColor.textfieldShadow()),
-            borderRadius: BorderRadius.circular(5),
+            borderRadius: BorderRadius.circular(8),
             boxShadow: [
               BoxShadow(
                 color: widget.widgetColor.textfieldShadow(),
@@ -42,15 +45,29 @@ class CustomTextFieldState extends State<CustomTextField> {
             ],
           ),
           child: TextField(
+            obscureText: widget._isObscure,
             decoration: InputDecoration(
-              prefixIcon: IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  widget._isObscure ? Icons.visibility : Icons.visibility_off,
-                ),
-              ),
+              border: InputBorder.none,
+              suffixIcon: textEditingController.text.isEmpty
+                  ? null
+                  : widget._topic == "รหัสผ่าน" ||
+                        widget._topic == "ยืนยันรหัสผ่าน"
+                  ? IconButton(
+                      onPressed: () {
+                        setState(() {
+                          widget._isObscure = !widget._isObscure;
+                        });
+                      },
+                      icon: Icon(
+                        widget._isObscure
+                            ? Icons.visibility_off
+                            : Icons.visibility,
+                      ),
+                    )
+                  : null,
             ),
-            controller: widget.textEditingController,
+            controller: textEditingController,
+            onChanged: (value) => setState(() {}),
             keyboardType: widget._textInputType == "email"
                 ? TextInputType.emailAddress
                 : widget._textInputType == "number"
@@ -58,6 +75,7 @@ class CustomTextFieldState extends State<CustomTextField> {
                 : TextInputType.text,
           ),
         ),
+        SizedBox(height: 15),
       ],
     );
   }

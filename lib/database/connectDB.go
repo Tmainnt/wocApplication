@@ -3,7 +3,6 @@ package db
 import (
 	"database/sql"
 	"fmt"
-	"log"
 
 	"net/http"
 
@@ -26,9 +25,7 @@ func main() {
 
 	fmt.Println("Connected to PostgresSQL!")
 
-	http.HandlerFunc("/register", registerHandler(db)) // ignore error just compile all file in project
+	http.HandleFunc("/register", registerHandler(db)) // ignore error just compile all file in project
 
-	// test on web server
-	log.Println("Server running on :8080")
 	http.ListenAndServe(":8080", nil)
 }

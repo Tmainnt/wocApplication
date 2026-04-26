@@ -12,6 +12,11 @@ type RegisterRequest struct {
 	Name     string `json:"user_name"`
 	Password string `json:"user_pass"`
 	Email    string `json:"user_email"`
+	FName    string `json:"first_name"`
+	LName    string `json:"last_name"`
+	Gender   string `json:"user_gender"`
+	DOF      string `json:"date_of_birth"`
+	PhoneNB  string `json:"phone_number"`
 }
 
 func registerHandler(db *sql.DB) http.HandlerFunc {
@@ -33,10 +38,16 @@ func registerHandler(db *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		err = db.Exec(
-			"INSERT INTO users(user_name, user_pass, user_email) VALUES($1, $2, $3)",
-			req.Email,
+		_, err = db.Exec(
+			"INSERT INTO users(user_name, user_pass, user_email, first_name, last_name, user_gender, date_of_birth, phone_number) VALUES($1, $2, $3, $4, $5, $6, $7, $8)",
+			req.Name,
 			string(hashed),
+			req.Email,
+			req.FName,
+			req.LName,
+			req.Gender,
+			req.DOF,
+			req.PhoneNB,
 		)
 
 		if err != nil {

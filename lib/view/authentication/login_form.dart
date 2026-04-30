@@ -4,6 +4,8 @@ import "package:woc/theme/text_color.dart";
 import "package:woc/theme/widget_color.dart";
 import "package:woc/view/authentication/register_form.dart";
 import "package:woc/widget/auth/custom_textfield.dart";
+import "package:http/http.dart" as http;
+import "dart:convert";
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -154,6 +156,7 @@ class LogFormState extends State<LoginForm> {
     );
   }
 
+  // ตอนนี้ยังเป็นแค่ปุ่มให้กด ยังไม่มี action เพราะทำระบบ login ด้วย google ไม่เป็น เพราะไม่ได้ใช้ firebase
   Widget _signInWithGoogle() {
     return OutlinedButton(
       onPressed: () {},
@@ -177,6 +180,15 @@ class LogFormState extends State<LoginForm> {
           ),
         ],
       ),
+    );
+  }
+
+  Future loginButton() async {
+    final url = Uri.parse("https://kindling-magnifier-late.ngrok-free.dev");
+    final response = await http.post(
+      url,
+      headers: {"content-type": "application/json"},
+      body: jsonEncode({}),
     );
   }
 }

@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"encoding/json"
+	"log"
 	"net/http"
 
 	"golang.org/x/crypto/bcrypt"
@@ -32,11 +33,13 @@ func loginHandler(db *sql.DB) http.HandlerFunc {
 		err := json.NewDecoder(r.Body).Decode(&req)
 		if err != nil {
 			http.Error(w, "Invalid json", 400)
+			log.Println(err)
 			return
 		}
 
 		if req.Req_Email == "" || req.Req_Password == "" {
 			http.Error(w, "Email and password required", 400)
+			log.Println(err)
 			return
 		}
 
@@ -57,9 +60,11 @@ func loginHandler(db *sql.DB) http.HandlerFunc {
 		if err != nil {
 			if err == sql.ErrNoRows {
 				http.Error(w, "User not found	", 400)
+				log.Println(err)
 				return
 			}
 			http.Error(w, "Database Error", 500)
+			log.Println(err)
 			return
 		}
 
@@ -69,6 +74,7 @@ func loginHandler(db *sql.DB) http.HandlerFunc {
 
 		if err != nil {
 			http.Error(w, "Wrong Password", 401)
+			log.Println(err)
 			return
 		}
 

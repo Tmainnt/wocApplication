@@ -26,7 +26,7 @@ func main() {
 	fmt.Println("Connected to PostgresSQL!")
 
 	http.HandleFunc("/register", registerHandler(db))
-	http.HandleFunc("/loging", loginHandler(db))
+	http.HandleFunc("/login", loginHandler(db))
 
 	http.ListenAndServe(":8080", nil)
 }

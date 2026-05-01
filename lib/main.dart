@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:woc/provider/user_provider.dart';
 import 'package:woc/view/authentication/login_form.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(create: (_) => UserProvider(), child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {

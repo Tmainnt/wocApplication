@@ -5,12 +5,14 @@ class CustomTextField extends StatefulWidget {
   final String _topic;
   final bool isObscure;
   final String textInputType;
+  final TextEditingController textEditingController;
 
   CustomTextField({
     super.key,
     required String topic,
     required this.isObscure,
     required this.textInputType,
+    required this.textEditingController,
   }) : _topic = topic;
 
   @override
@@ -18,7 +20,6 @@ class CustomTextField extends StatefulWidget {
 }
 
 class CustomTextFieldState extends State<CustomTextField> {
-  final TextEditingController textEditingController = TextEditingController();
   final WidgetColor widgetColor = WidgetColor();
 
   late bool isObscure;
@@ -53,7 +54,7 @@ class CustomTextFieldState extends State<CustomTextField> {
             obscureText: isObscure,
             decoration: InputDecoration(
               border: InputBorder.none,
-              suffixIcon: textEditingController.text.isEmpty
+              suffixIcon: widget.textEditingController.text.isEmpty
                   ? null
                   : widget._topic == "รหัสผ่าน" ||
                         widget._topic == "ยืนยันรหัสผ่าน"
@@ -69,7 +70,7 @@ class CustomTextFieldState extends State<CustomTextField> {
                     )
                   : null,
             ),
-            controller: textEditingController,
+            controller: widget.textEditingController,
             onChanged: (value) => setState(() {}),
             keyboardType: widget.textInputType == "email"
                 ? TextInputType.emailAddress

@@ -9,15 +9,22 @@ import (
 )
 
 type RegisterRequest struct {
-	Name     string `json:"user_name"`
-	Password string `json:"user_pass"`
-	Email    string `json:"user_email"`
-	FName    string `json:"first_name"`
-	LName    string `json:"last_name"`
-	Gender   string `json:"user_gender"`
-	DOF      string `json:"date_of_birth"`
-	PhoneNB  string `json:"phone_number"`
+	Name     string   `json:"user_name"`
+	Password string   `json:"user_pass"`
+	Email    string   `json:"user_email"`
+	FName    string   `json:"first_name"`
+	LName    string   `json:"last_name"`
+	Gender   string   `json:"user_gender"`
+	DOF      string   `json:"date_of_birth"`
+	PhoneNB  string   `json:"phone_number"`
+	Role     UserRole `json:"role"`
 }
+
+type UserRole string
+
+const (
+	RoleUser UserRole = "User"
+)
 
 func registerHandler(db *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
@@ -39,15 +46,14 @@ func registerHandler(db *sql.DB) http.HandlerFunc {
 		}
 
 		_, err = db.Exec(
-			"INSERT INTO users(user_name, user_pass, user_email, first_name, last_name, user_gender, date_of_birth, phone_number) VALUES($1, $2, $3, $4, $5, $6, $7, $8)",
+			"INSERT INTO users(user_name, user_pass, user_email, user_gender, date_of_birth, phone_number, role) VALUES($1, $2, $3, $4, $5, $6, $7)",
 			req.Name,
 			string(hashed),
 			req.Email,
-			req.FName,
-			req.LName,
 			req.Gender,
 			req.DOF,
 			req.PhoneNB,
+			RoleUser,
 		)
 
 		if err != nil {

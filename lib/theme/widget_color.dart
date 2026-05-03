@@ -10,4 +10,12 @@ class WidgetColor {
   Color dividerColor() => Color.fromARGB(255, 158, 158, 158);
 
   Color cancel() => Colors.red;
+
+  List<Color> topNavbar() => [
+    Color.fromARGB(255, 5, 30, 141),
+    Color.fromARGB(255, 105, 58, 233),
+    Color.fromARGB(255, 105, 3, 95),
+  ];
+
+  Color iconWithBlackBackground() => Color.fromARGB(255, 158, 158, 158);
 }

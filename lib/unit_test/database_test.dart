@@ -4,8 +4,8 @@ import 'package:http/http.dart' as http;
 
 Future<void> main() async {
   queryUser();
-  insertuserData();
-  queryUser();
+  //insertuserData();
+  //queryUser();
 }
 
 Future<void> queryUser() async {
@@ -50,7 +50,7 @@ void insertuserData() async {
       "user_name": "Thannkun",
       "user_pass": "Reyzaburrel123@",
       "user_email": "gamerthann@gmail.com",
-      "user_gender": "Male",
+      "gender": "Male",
       "date_of_birth": DateTime.now().toString(),
       "phone_number": "0614317635",
       "role": "Admin",

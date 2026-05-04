@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	connStr := "user=postgres password=Reyzaburrel123@ dbname=myapp sslmode=disable"
+	connStr := "user=postgres password=Reyzaburrel123@ dbname=postgres sslmode=disable"
 
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {

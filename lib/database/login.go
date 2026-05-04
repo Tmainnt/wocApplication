@@ -20,7 +20,7 @@ type User struct {
 	Email    string `json:"user_email"`
 	FName    string `json:"first_name"`
 	LName    string `json:"last_name"`
-	Gender   string `json:"user_gender"`
+	Gender   string `json:"gender"`
 	DOF      string `json:"date_of_birth"`
 	PhoneNB  string `json:"phone_number"`
 	Role     string `json:"role"`
@@ -44,7 +44,7 @@ func loginHandler(db *sql.DB) http.HandlerFunc {
 		}
 
 		err = db.QueryRow(
-			`SELECT user_name, user_email, user_gender, date_of_birth, phone_number, user_pass, role 
+			`SELECT user_name, user_email, gender, date_of_birth, phone_number, user_pass, role 
 	 FROM users WHERE user_email=$1`,
 			req.Req_Email,
 		).Scan(

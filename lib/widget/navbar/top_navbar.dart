@@ -35,6 +35,7 @@ class TopNavbarState extends State<TopNavbar> {
       foregroundColor: Colors.white,
       centerTitle: true,
       leading: widget.leadingContent,
+      actions: [widget.trailingContent],
     );
   }
 }

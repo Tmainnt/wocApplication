@@ -19,8 +19,7 @@ class RegisterFormState extends State<RegisterForm> {
   bool isLoading = false;
   WidgetColor widgetColor = WidgetColor();
   TextColor textColor = TextColor();
-  List<String> gender = ["ชาย", "หญิง", "อื่นๆ"];
-  TextEditingController genderController = TextEditingController();
+  String? selectedGender;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
@@ -180,38 +179,28 @@ class RegisterFormState extends State<RegisterForm> {
                                                 ),
                                               ),
                                               onSelected: (value) {
-                                                setState(() {});
+                                                setState(() {
+                                                  selectedGender = value;
+                                                });
                                               },
-                                              controller: genderController,
                                               hintText: "เลือก",
                                               dropdownMenuEntries:
                                                   <DropdownMenuEntry<String>>[
                                                     DropdownMenuEntry(
-                                                      value: "ชาย",
+                                                      value: "Male",
                                                       label: "ชาย",
                                                     ),
                                                     DropdownMenuEntry(
-                                                      value: "หญิง",
+                                                      value: "Female",
                                                       label: "หญิง",
                                                     ),
                                                     DropdownMenuEntry(
-                                                      value: "อื่นๆ",
+                                                      value: "Other",
                                                       label: "อื่นๆ",
                                                     ),
                                                   ],
                                             ),
                                           ),
-
-                                          genderController.text.isNotEmpty
-                                              ? IconButton(
-                                                  onPressed: () {
-                                                    genderController.clear();
-                                                    setState(() {});
-                                                  },
-                                                  icon: Icon(Icons.cancel),
-                                                  color: widgetColor.cancel(),
-                                                )
-                                              : SizedBox(),
                                         ],
                                       ),
                                     ],
@@ -352,7 +341,7 @@ class RegisterFormState extends State<RegisterForm> {
     if (emailController.text.isNotEmpty &&
         nameController.text.isNotEmpty &&
         passwordController.text.isNotEmpty &&
-        genderController.text.isNotEmpty &&
+        selectedGender != null &&
         (dayController.text.isNotEmpty &&
             monthController.text.isNotEmpty &&
             yearController.text.isNotEmpty)) {
@@ -376,13 +365,13 @@ class RegisterFormState extends State<RegisterForm> {
           "user_name": nameController.text,
           "user_email": emailController.text,
           "user_pass": passwordController.text,
-          "gender": genderController.text,
+          "gender": selectedGender,
           "date_of_birth": dob,
           "phone_number": phoneNumberController.text,
         }),
       );
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => LoginForm()),
@@ -464,12 +453,6 @@ class RegisterFormState extends State<RegisterForm> {
         actions: [
           ElevatedButton(
             onPressed: () {
-              setState(() {
-                clickDob = !clickDob;
-                dayController.clear();
-                monthController.clear();
-                yearController.clear();
-              });
               Navigator.pop(context);
             },
             child: Text("ยกเลิก", style: TextStyle(color: Colors.red)),

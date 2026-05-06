@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:woc/model/user.dart';
+import 'package:woc/provider/user_provider.dart';
+import 'package:woc/view/authentication/login_form.dart';
 import 'package:woc/view/community/post_page.dart';
 import 'package:woc/widget/navbar/top_navbar.dart';
 import 'package:woc/theme/text_color.dart';
@@ -17,6 +21,7 @@ class HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    User? userData = Provider.of<UserProvider>(context, listen: true).queryUser;
     return Scaffold(
       appBar: TopNavbar(
         centerText: centerTextCreate(),
@@ -122,7 +127,18 @@ class HomePageState extends State<HomePage> {
           },
           icon: Icon(Icons.menu),
         ),
-        trailingContent: null,
+        trailingContent: IconButton(
+          onPressed: () {
+            setState(() {
+              Provider.of<UserProvider>(context, listen: false).clearUser();
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => LoginForm()),
+              );
+            });
+          },
+          icon: Icon(Icons.logout, color: Colors.white),
+        ),
       ),
       body: Center(child: Text("This is Home Page!")),
     );

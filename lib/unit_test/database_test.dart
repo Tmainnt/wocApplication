@@ -4,8 +4,8 @@ import 'package:http/http.dart' as http;
 
 Future<void> main() async {
   queryUser();
-  //insertuserData();
-  //queryUser();
+  insertuserData();
+  queryUser();
 }
 
 Future<void> queryUser() async {

@@ -6,6 +6,7 @@ class User {
   String _dof;
   String _phone;
   String _role;
+  String _profileImage;
 
   User({
     required String token,
@@ -15,13 +16,15 @@ class User {
     required String dof,
     required String phone,
     required String role,
+    required String profileImage,
   }) : _token = token,
        _email = email,
        _name = name,
        _gender = gender,
        _dof = dof,
        _phone = phone,
-       _role = role;
+       _role = role,
+       _profileImage = profileImage;
 
   factory User.fromJson(Map<String, dynamic> json, String tokenStr) {
     return User(
@@ -32,6 +35,7 @@ class User {
       phone: json["phone_number"] ?? "",
       gender: json["gender"],
       role: json["role"],
+      profileImage: json["profile_image"] ?? "",
     );
   }
 
@@ -42,4 +46,5 @@ class User {
   String get dof => _dof;
   String get phone => _phone;
   String get role => _role;
+  String get profileImage => _profileImage;
 }

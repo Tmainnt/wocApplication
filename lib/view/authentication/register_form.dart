@@ -1,12 +1,10 @@
-import 'dart:convert';
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:woc/service/auth_service.dart';
 import 'package:woc/theme/text_color.dart';
 import 'package:woc/theme/widget_color.dart';
 import 'package:woc/view/authentication/login_form.dart';
 import 'package:woc/widget/auth/custom_textfield.dart';
-import 'package:http/http.dart' as http;
 
 class RegisterForm extends StatefulWidget {
   const RegisterForm({super.key});
@@ -289,7 +287,18 @@ class RegisterFormState extends State<RegisterForm> {
                     ElevatedButton(
                       onPressed: isLoading
                           ? null
-                          : () => registerButtonAction(),
+                          : () => AuthService().registerButtonAction(
+                              emailController,
+                              nameController,
+                              passwordController,
+                              selectedGender,
+                              dayController,
+                              monthController,
+                              yearController,
+                              confirmPasswordController,
+                              context,
+                              phoneNumberController,
+                            ),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: widgetColor.elevatedButtonAuth(),
                         foregroundColor: Colors.white,
@@ -335,57 +344,6 @@ class RegisterFormState extends State<RegisterForm> {
         ],
       ),
     );
-  }
-
-  void registerButtonAction() async {
-    if (emailController.text.isNotEmpty &&
-        nameController.text.isNotEmpty &&
-        passwordController.text.isNotEmpty &&
-        selectedGender != null &&
-        (dayController.text.isNotEmpty &&
-            monthController.text.isNotEmpty &&
-            yearController.text.isNotEmpty)) {
-      if (passwordController.text != confirmPasswordController.text) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text("รหัสผ่านไม่ตรงกัน")));
-        return;
-      }
-      final url = Uri.parse(
-        "https://kindling-magnifier-late.ngrok-free.dev/register",
-      );
-
-      final String dob =
-          "${dayController.text}/${monthController.text}/${yearController.text}";
-
-      final response = await http.post(
-        url,
-        headers: {"content-type": "application/json"},
-        body: jsonEncode({
-          "user_name": nameController.text,
-          "user_email": emailController.text,
-          "user_pass": passwordController.text,
-          "gender": selectedGender,
-          "date_of_birth": dob,
-          "phone_number": phoneNumberController.text,
-        }),
-      );
-
-      if (response.statusCode == 201) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => LoginForm()),
-        );
-      } else {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text("สมัครไม่สำเร็จ")));
-      }
-    } else {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text("กรุณากรอกข้อมูลให้ครบ")));
-    }
   }
 
   Future<dynamic> birthDayData(BuildContext context) {

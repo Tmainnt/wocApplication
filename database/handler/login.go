@@ -16,15 +16,16 @@ type loginRequest struct {
 }
 
 type User struct {
-	Name     string `json:"user_name"`
-	Password string `json:"-"`
-	Email    string `json:"user_email"`
-	FName    string `json:"first_name"`
-	LName    string `json:"last_name"`
-	Gender   string `json:"gender"`
-	DOF      string `json:"date_of_birth"`
-	PhoneNB  string `json:"phone_number"`
-	Role     string `json:"role"`
+	Name         string `json:"user_name"`
+	Password     string `json:"-"`
+	Email        string `json:"user_email"`
+	FName        string `json:"first_name"`
+	LName        string `json:"last_name"`
+	Gender       string `json:"gender"`
+	DOF          string `json:"date_of_birth"`
+	PhoneNB      string `json:"phone_number"`
+	Role         string `json:"role"`
+	ProfileImage string `json:"profile_image"`
 }
 
 func LoginHandler(db *sql.DB) http.HandlerFunc {
@@ -45,7 +46,7 @@ func LoginHandler(db *sql.DB) http.HandlerFunc {
 		}
 
 		err = db.QueryRow(
-			`SELECT user_name, user_email, gender, date_of_birth, phone_number, user_pass, role 
+			`SELECT user_name, user_email, gender, date_of_birth, phone_number, user_pass, role, profile_image 
 	 FROM users WHERE user_email=$1`,
 			req.Req_Email,
 		).Scan(
@@ -56,6 +57,7 @@ func LoginHandler(db *sql.DB) http.HandlerFunc {
 			&user.PhoneNB,
 			&user.Password,
 			&user.Role,
+			&user.ProfileImage,
 		)
 
 		if err != nil {

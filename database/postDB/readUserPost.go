@@ -10,7 +10,7 @@ import (
 
 type Post struct {
 	PostID          int    `json:"post_id"`
-	UserID          string `json:"user_id_pk"`
+	UserID          string `json:"user_id"`
 	Content         string `json:"post_content"`
 	Image           string `json:"post_image"`
 	CreateTimestamp string `json:"create_timestamp"`

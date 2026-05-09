@@ -9,11 +9,25 @@ import (
 
 	"net/http"
 
+	"github.com/cloudinary/cloudinary-go/v2"
+
+	//"github.com/cloudinary/cloudinary-go/v2/api"
+	//"github.com/cloudinary/cloudinary-go/v2/api/admin"
+	//"github.com/cloudinary/cloudinary-go/v2/api/uploader"
+	"context"
+
 	_ "github.com/lib/pq"
 )
 
+func credentials() (*cloudinary.Cloudinary, context.Context) {
+	cld, _ := cloudinary.New()
+	cld.Config.URL.Secure = true
+	ctx := context.Background()
+	return cld, ctx
+}
+
 func main() {
-	connStr := "user=postgres password=Reyzaburrel123@ dbname=postgres sslmode=disable options='--client_enconding=UTF8'"
+	connStr := "user=postgres password=Reyzaburrel123@ dbname=postgres sslmode=disable"
 
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
@@ -30,7 +44,8 @@ func main() {
 
 	http.HandleFunc("/register", handler.RegisterHandler(db))
 	http.HandleFunc("/login", handler.LoginHandler(db))
-	http.HandleFunc("/readPost", auth.AuthMiddelware(pdb.ReadPostData()))
+	http.HandleFunc("/readPost", auth.AuthMiddelware(pdb.ReadPostData(db)))
+	http.HandleFunc("/writeBack", auth.AuthMiddelware(pdb.WriteBack(db)))
 
 	http.ListenAndServe(":8080", nil)
 }

@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"context"
 	"net/http"
 	"strings"
 
@@ -23,10 +24,12 @@ func AuthMiddelware(next http.HandlerFunc) http.HandlerFunc {
 		})
 
 		if err != nil || !token.Valid {
-			http.Error(w, "Invalid toekn", 401)
+			http.Error(w, "Invalid token", 401)	
 			return
 		}
 
-		w.WriteHeader(http.StatusOK)
+		ctx := context.WithValue(r.Context(), "user", claims)
+
+		next(w, r.WithContext(ctx))
 	}
 }

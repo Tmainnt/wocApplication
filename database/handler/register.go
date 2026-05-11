@@ -41,7 +41,7 @@ func RegisterHandler(db *sql.DB) http.HandlerFunc {
 		}
 
 		_, err = db.Exec(
-			"INSERT INTO users(user_name, user_pass, user_email, gender, date_of_birth, phone_number, role, profile_image) VALUES($1, $2, $3, $4, $5, $6, $7, $8)",
+			"INSERT INTO users(user_name, user_pass, user_email, gender, date_of_birth, phone_number, role, profile_image, status) VALUES($1, $2, $3, $4, $5, $6, $7, $8, &9)",
 			req.Name,
 			string(hashed),
 			req.Email,
@@ -50,6 +50,7 @@ func RegisterHandler(db *sql.DB) http.HandlerFunc {
 			req.PhoneNB,
 			"User",
 			"",
+			"Offline",
 		)
 
 		if err != nil {

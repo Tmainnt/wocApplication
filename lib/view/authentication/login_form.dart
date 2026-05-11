@@ -1,9 +1,12 @@
 import "package:flutter/gestures.dart";
 import "package:flutter/material.dart";
+import "package:provider/provider.dart";
+import "package:woc/provider/user_provider.dart";
 import "package:woc/service/auth_service.dart";
 import "package:woc/theme/text_color.dart";
 import "package:woc/theme/widget_color.dart";
 import "package:woc/view/authentication/register_form.dart";
+import "package:woc/view/home_page.dart";
 import "package:woc/widget/auth/custom_textfield.dart";
 
 class LoginForm extends StatefulWidget {
@@ -106,11 +109,7 @@ class LogFormState extends State<LoginForm> {
                     SizedBox(height: 10),
                     ElevatedButton(
                       onPressed: () {
-                        AuthService().loginButtonAction(
-                          emailController,
-                          passwordController,
-                          context,
-                        );
+                        loginButtonAction();
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: widgetColor.elevatedButtonAuth(),
@@ -161,6 +160,26 @@ class LogFormState extends State<LoginForm> {
         ],
       ),
     );
+  }
+
+  Future<dynamic> loginButtonAction() async {
+    if (emailController.text.isNotEmpty && passwordController.text.isNotEmpty) {
+      try {
+        final userData = await AuthService().loginResponseStatusCode(
+          emailController.text,
+          passwordController.text,
+        );
+        Provider.of<UserProvider>(context, listen: false).setUser(userData);
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage()),
+        );
+      } catch (e) {
+        return ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text("อีเมลหรือรหัสผ่านไม่ถูกต้อง")));
+      }
+    }
   }
 
   // ตอนนี้ยังเป็นแค่ปุ่มให้กด ยังไม่มี action เพราะทำระบบ login ด้วย google ไม่เป็น เพราะไม่ได้ใช้ firebase

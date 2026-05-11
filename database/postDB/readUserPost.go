@@ -36,6 +36,7 @@ func GetAllPost(db *sql.DB) http.HandlerFunc {
 			row.Scan(&p.PostID, &p.UserID, &p.Content, &p.Image, &p.CreateTimestamp, &p.UpdateTimestamp, &p.PostVisibility, &p.PostStatus, &p.LikeCount, &p.CommentCount)
 			post = append(post, p)
 		}
+		w.WriteHeader(http.StatusOK)
 		json.NewEncoder(w).Encode(post)
 	}
 }

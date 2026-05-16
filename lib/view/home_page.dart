@@ -97,6 +97,38 @@ class HomePageState extends State<HomePage> {
                     GestureDetector(
                       onTap: () {
                         Navigator.pop(context);
+                        Provider.of<UserProvider>(context).clearUser();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => LoginForm()),
+                        );
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Icon(
+                            Icons.logout,
+                            size: 25,
+                            color: widgetColor.iconWithBlackBackground(),
+                          ),
+
+                          SizedBox(width: 10),
+
+                          Text(
+                            "Logout",
+                            style: TextStyle(
+                              fontSize: 15,
+                              color: textColor.subText(),
+                              decoration: TextDecoration.none,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,

@@ -3,7 +3,6 @@ package pdb
 import (
 	"database/sql"
 	"encoding/json"
-	"log"
 	"net/http"
 	auth "woc/database/auth"
 )
@@ -23,7 +22,7 @@ type Post struct {
 
 func GetAllPost(db *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		row, err := db.Query(`SELECT post_id_pk, user_id_pk, post_content, post_image, create_timestamp, update_timestamp, post_status, like_count, comment_count FROM posts WHERE post_visibility = "public"`)
+		row, err := db.Query(`SELECT post_id_pk, user_id_pk, post_content, post_image, create_timestamp, update_timestamp, post_status, like_count, comment_count FROM posts WHERE post_visibility = 'public'`)
 		if err != nil {
 			http.Error(w, "Error fetch data", 500)
 		}
@@ -43,20 +42,9 @@ func GetAllPost(db *sql.DB) http.HandlerFunc {
 
 func GetMyPost(db *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		claims := r.Context().Value("user").(*auth.Claims)
-		var userID int
-		err := db.QueryRow(`SELECT user_id FROM users WHERE user_email = $1`, claims.Email).Scan(&userID)
-		if err != nil {
-			if err == sql.ErrNoRows {
-				http.Error(w, "User not found", 400)
-				return
-			}
-			http.Error(w, "Database Error", 500)
-			log.Println(err)
-			return
-		}
+		claims := r.Context().Value(auth.UserContextKey).(*auth.Claims)
 
-		row, err := db.Query(`SELECT post_id, user_id_pk, post_content, post_image, create_timestamp, update_timestamp FROM post WHERE user_id_pk = $1`, userID)
+		row, err := db.Query(`SELECT post_id, user_id_pk, post_content, post_image, create_timestamp, update_timestamp FROM post WHERE user_id_pk = $1`, claims.UserID)
 
 		if err != nil {
 			http.Error(w, "Error fetch data", 500)

@@ -17,6 +17,7 @@ type loginRequest struct {
 }
 
 type User struct {
+	ID              int       `json:"user_id"`
 	Name            string    `json:"user_name"`
 	Password        string    `json:"-"`
 	Email           string    `json:"user_email"`
@@ -50,10 +51,11 @@ func LoginHandler(db *sql.DB) http.HandlerFunc {
 		}
 
 		err = db.QueryRow(
-			`SELECT user_name, user_email, gender, date_of_birth, phone_number, user_pass, role, profile_image, status, create_timestamp, update_timestamp 
+			`SELECT user_id, user_name, user_email, gender, date_of_birth, phone_number, user_pass, role, profile_image, status, create_timestamp, update_timestamp 
 	 FROM users WHERE user_email=$1`,
 			req.Req_Email,
 		).Scan(
+			&user.ID,
 			&user.Name,
 			&user.Email,
 			&user.Gender,
@@ -62,6 +64,8 @@ func LoginHandler(db *sql.DB) http.HandlerFunc {
 			&user.Password,
 			&user.Role,
 			&user.ProfileImage,
+			&user.CreateTimestamp,
+			&user.UpdateTimestamp,
 		)
 
 		if err != nil {
@@ -85,11 +89,29 @@ func LoginHandler(db *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		token, err := auth.GenerateToken(user.Email, user.Role)
-		_, err = db.Exec("UPDATE users SET status=$1", "Active")
+		token, err := auth.GenerateAccessToken(user.ID, user.Email, user.Role)
+		if err != nil {
+			http.Error(w, "Can't generate token.", 500)
+		}
+
+		_, err = db.Exec("UPDATE users SET status=$2 WHERE user_email = $1", user.Email, "Active")
 		if err != nil {
 			http.Error(w, "Can't update database.", 500)
 		}
+
+		refreshToken, err := auth.GenerateRefreshToken(user.ID, user.Email, user.Role)
+		if err != nil {
+			http.Error(w, "Can't generate token.", 500)
+		}
+
+		hashToken, err := bcrypt.GenerateFromPassword([]byte(refreshToken), bcrypt.DefaultCost)
+		if err != nil {
+			http.Error(w, "hash failed.", 500)
+			return
+		}
+
+		_, err = db.Exec(`INSERT INTO refresh_token (user_id_fk, token, expires_timestamp)
+						VALUES ($1, $2, $3)`, user.ID, hashToken, time.Now().Add(7*24*time.Hour))
 
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)

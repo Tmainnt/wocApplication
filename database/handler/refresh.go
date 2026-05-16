@@ -9,20 +9,18 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-type RefreshRequest struct {
-	RefreshToken string `json:"refresh_token"`
-}
-
 func RefreshHandler(db *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req RefreshRequest
-		err := json.NewDecoder(r.Body).Decode(&req)
+		// 1. อ่าน refresh token จาก cookie
+		cookie, err := r.Cookie("refresh_token")
 		if err != nil {
-			http.Error(w, "Invalid request", 400)
+			http.Error(w, "No refresh token", 401)
 			return
 		}
+		refreshToken := cookie.Value
 
-		claims, err := auth.ParseToken(req.RefreshToken)
+		// 2. parse และ verify JWT signature + expiry
+		claims, err := auth.ParseRefreshToken(refreshToken)
 		if err != nil {
 			http.Error(w, "Invalid token", 401)
 			return
@@ -33,29 +31,31 @@ func RefreshHandler(db *sql.DB) http.HandlerFunc {
 			return
 		}
 
+		// 3. ตรวจสอบกับ DB ว่ายังมีอยู่และไม่หมดอายุ
 		var hashedToken string
-
 		err = db.QueryRow(`
-			SELECT token FROM refresh_token
-			WHERE user_id_fk = $1
-			AND expires_timestamp > NOW()`, claims.UserID).Scan(&hashedToken)
+            SELECT token FROM refresh_token
+            WHERE user_id_fk = $1 AND expires_timestamp > NOW()`,
+			claims.UserID,
+		).Scan(&hashedToken)
 
 		if err != nil {
 			http.Error(w, "Token not found", 401)
 			return
 		}
 
-		err = bcrypt.CompareHashAndPassword(
-			[]byte(hashedToken),
-			[]byte(req.RefreshToken),
-		)
-
+		// 4. เปรียบเทียบ hash
+		err = bcrypt.CompareHashAndPassword([]byte(hashedToken), []byte(refreshToken))
 		if err != nil {
-			http.Error(w, "Token not match", 401)
+			http.Error(w, "Token mismatch", 401)
 			return
 		}
 
-		newAccessToken, err := auth.GenerateAccessToken(claims.UserID, claims.Email, claims.Role)
+		// 5. ออก access token ใหม่ (Role เก็บไว้ใน DB หรือ query เพิ่ม)
+		var role string
+		db.QueryRow(`SELECT role FROM users WHERE user_id = $1`, claims.UserID).Scan(&role)
+
+		newAccessToken, err := auth.GenerateAccessToken(claims.UserID, claims.Email, role)
 		if err != nil {
 			http.Error(w, "Cannot generate token", 500)
 			return

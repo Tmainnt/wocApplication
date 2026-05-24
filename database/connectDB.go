@@ -48,6 +48,7 @@ func main() {
 
 	err = db.Ping()
 	if err != nil {
+		print("Error line 52.")
 		panic(err)
 	}
 

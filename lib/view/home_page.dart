@@ -11,6 +11,7 @@ import 'package:woc/view/authentication/login_form.dart';
 import 'package:woc/view/community/chat_page.dart';
 import 'package:woc/view/community/post_page.dart';
 import 'package:woc/widget/community/create_post_card.dart';
+import 'package:woc/widget/navbar/bottom_navbar.dart';
 import 'package:woc/widget/navbar/top_navbar.dart';
 import 'package:woc/theme/text_color.dart';
 import 'package:woc/theme/widget_color.dart';
@@ -23,6 +24,7 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
+  int selectedIndex = 0;
   WidgetColor widgetColor = WidgetColor();
   TextColor textColor = TextColor();
   PostService postService = PostService();
@@ -192,6 +194,7 @@ class HomePageState extends State<HomePage> {
           );
         },
       ),
+      bottomNavigationBar: BottomNavbar(index: index, onTap: onTap),
     );
   }
 

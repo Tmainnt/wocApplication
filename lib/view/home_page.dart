@@ -9,7 +9,6 @@ import 'package:woc/provider/user_provider.dart';
 import 'package:woc/service/post_service.dart';
 import 'package:woc/view/authentication/login_form.dart';
 import 'package:woc/view/community/chat_page.dart';
-import 'package:woc/view/community/post_page.dart';
 import 'package:woc/widget/community/create_post_card.dart';
 import 'package:woc/widget/navbar/bottom_navbar.dart';
 import 'package:woc/widget/navbar/top_navbar.dart';
@@ -63,37 +62,6 @@ class HomePageState extends State<HomePage> {
                           SizedBox(width: 10),
                           Text(
                             "Home",
-                            style: TextStyle(
-                              fontSize: 15,
-                              color: textColor.subText(),
-                              decoration: TextDecoration.none,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => PostPage()),
-                        );
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Icon(
-                            Icons.web,
-                            size: 25,
-                            color: widgetColor.iconWithBlackBackground(),
-                          ),
-
-                          SizedBox(width: 10),
-
-                          Text(
-                            "Post",
                             style: TextStyle(
                               fontSize: 15,
                               color: textColor.subText(),
@@ -194,7 +162,6 @@ class HomePageState extends State<HomePage> {
           );
         },
       ),
-      bottomNavigationBar: BottomNavbar(index: index, onTap: onTap),
     );
   }
 

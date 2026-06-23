@@ -13,19 +13,7 @@ class CacheService {
     }
 
     void saveUserData(User userData){
-        final userDataList = [
-            userData.token,
-            userData.email,
-            userData.name,
-            userData.gender,
-            userData.dob.toIso8601String(),
-            userData.phone,
-            userData.role,
-            userData.profileImage,
-            userData.status,
-            userData.createTimestamp.toIso8601String(),
-            userData.updateTimestamp.toIso8601String(),
-        ];
-        _cacheStorage.save(key: "user_data", value: userDataList);
+
+        _cacheStorage.save(key: "user_data", value: userData);
     }
 }

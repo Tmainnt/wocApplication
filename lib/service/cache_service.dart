@@ -18,5 +18,5 @@ class CacheService {
         UserProvider userProvider = UserProvider();
         final userData = getUserData();
         userProvider.setUser(userData);
-    }
+    }   
 }

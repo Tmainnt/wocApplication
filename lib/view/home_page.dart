@@ -162,6 +162,14 @@ class HomePageState extends State<HomePage> {
           );
         },
       ),
+      bottomNavigationBar: BottomNavbar(
+        index: selectedIndex,
+        onTap: (index) {
+          setState(() {
+            selectedIndex = index;
+          });
+        },
+      )
     );
   }
 

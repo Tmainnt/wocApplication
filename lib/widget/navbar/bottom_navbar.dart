@@ -11,7 +11,14 @@ class BottomNavbar extends StatelessWidget {
     return BottomNavigationBar(
       currentIndex: index,
       onTap: onTap,
-      items: [BottomNavigationBarItem(icon: Icon(Icons.chat))],
+      type: BottomNavigationBarType.fixed,
+      selectedItemColor: Color(0xFF7E8CFD),
+      unselectedItemColor: Colors.black, 
+      items: [
+        BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+        BottomNavigationBarItem(icon: Icon(Icons.chat), label: "Chat"), 
+        BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile")
+      ],
     );
   }
 }

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:woc/theme/widget_color.dart';
 
-class TopNavbar extends StatefulWidget implements PreferredSizeWidget {
+class TopAppbar extends StatefulWidget implements PreferredSizeWidget {
   final dynamic centerText;
   final dynamic leadingContent;
   final dynamic trailingContent;
 
-  const TopNavbar({
+  const TopAppbar({
     super.key,
     required this.centerText,
     required this.leadingContent,
@@ -17,10 +17,10 @@ class TopNavbar extends StatefulWidget implements PreferredSizeWidget {
   Size get preferredSize => Size.fromHeight(kToolbarHeight);
 
   @override
-  State<TopNavbar> createState() => TopNavbarState();
+  State<TopAppbar> createState() => TopAppbarState();
 }
 
-class TopNavbarState extends State<TopNavbar> {
+class TopAppbarState extends State<TopAppbar> {
   final widgetColor = WidgetColor();
 
   @override

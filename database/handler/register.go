@@ -18,8 +18,6 @@ type RegisterRequest struct {
 	PhoneNB  string `json:"phone_number"`
 }
 
-type UserRole string
-
 func RegisterHandler(db *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req RegisterRequest
@@ -33,6 +31,7 @@ func RegisterHandler(db *sql.DB) http.HandlerFunc {
 		if req.Name == "" || req.Email == "" || req.Password == "" {
 			http.Error(w, "Email and password required", 400)
 			log.Println(err)
+			return
 		}
 
 		hashed, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
@@ -43,7 +42,7 @@ func RegisterHandler(db *sql.DB) http.HandlerFunc {
 		}
 
 		_, err = db.Exec(
-			"INSERT INTO users(user_name, user_pass, user_email, gender, date_of_birth, phone_number, role) VALUES($1, $2, $3, $4, $5, $6, $7)",
+			"INSERT INTO users(user_name, user_pass, user_email, gender, date_of_birth, phone_number, role, profile_image, status) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)",
 			req.Name,
 			string(hashed),
 			req.Email,
@@ -51,6 +50,8 @@ func RegisterHandler(db *sql.DB) http.HandlerFunc {
 			req.DOF,
 			req.PhoneNB,
 			"User",
+			"",
+			"Offline",
 		)
 
 		if err != nil {

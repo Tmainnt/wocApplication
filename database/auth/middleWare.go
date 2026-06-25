@@ -1,11 +1,16 @@
 package auth
 
 import (
+	"context"
 	"net/http"
 	"strings"
 
 	"github.com/golang-jwt/jwt/v5"
 )
+
+type contextKey string
+
+const UserContextKey contextKey = "user"
 
 func AuthMiddelware(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
@@ -23,10 +28,12 @@ func AuthMiddelware(next http.HandlerFunc) http.HandlerFunc {
 		})
 
 		if err != nil || !token.Valid {
-			http.Error(w, "Invalid toekn", 401)
+			http.Error(w, "Invalid token", 401)
 			return
 		}
 
-		w.WriteHeader(http.StatusOK)
+		ctx := context.WithValue(r.Context(), UserContextKey, claims)
+
+		next(w, r.WithContext(ctx))
 	}
 }

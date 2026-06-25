@@ -1,10 +1,8 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 import 'package:woc/model/post.dart';
-import 'package:woc/model/user.dart';
 import 'package:woc/provider/user_provider.dart';
 import 'package:woc/service/post_service.dart';
 import 'package:woc/view/authentication/login_form.dart';
@@ -30,7 +28,7 @@ class HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    User? userData = Provider.of<UserProvider>(context, listen: true).queryUser;
+    final userData = Provider.of<UserProvider>(context, listen: true).queryUser;
     return Scaffold(
       appBar: TopNavbar(
         centerText: centerTextCreate(),

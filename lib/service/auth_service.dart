@@ -38,7 +38,7 @@ class AuthService {
       "https://kindling-magnifier-late.ngrok-free.dev/register",
     );
 
-    final String dob = "${day}/${month}/${year}";
+    final String dob = "$day/$month/$year";
 
     final response = await http.post(
       url,

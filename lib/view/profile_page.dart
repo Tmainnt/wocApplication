@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:woc/theme/widget_color.dart';
 
 class ProfilePage extends StatefulWidget {
 
@@ -10,8 +11,26 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage>{
   
+  WidgetColor widgetColor = WidgetColor();
+
   @override
   Widget build(BuildContext context){
-    return Text("Profile Page");
+    return Column(
+      children: <Widget>[
+        Container(
+          height: 200,
+          width: double.infinity,      
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black, 
+                offset: Offset(0,0), 
+                blurRadius: 5,
+              )
+            ]
+          ),
+        ),
+      ]
+    );
   }
 }

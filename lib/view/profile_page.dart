@@ -43,8 +43,17 @@ class _ProfilePageState extends State<ProfilePage>{
               SizedBox(
                 height: 70,
                 width: double.infinity,
-                child:  userData == null ? Image.asset("") : userData.profileImage.isEmpty 
-                        ? Image.asset("") : Image.network(userData.profileImage),
+                child:  userData == null ? Image.asset("") : userData.backgroundImage.isEmpty 
+                        ? Image.asset("") : Image.network(userData.backgroundImage),
+              ),
+              Container(
+                height: 70,
+                decoration: BoxDecoration(
+                  color: Colors.white
+                ),
+                child: ClipRRect(
+                  child: SizedBox(),
+                ),
               ),
             ],
           ),

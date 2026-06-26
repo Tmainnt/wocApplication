@@ -7,6 +7,7 @@ class User {
   String _phone;
   String _role;
   String _profileImage;
+  String _backgroundImage;
   String _status;
   DateTime _createTimestamp;
   DateTime _updateTimestamp;
@@ -20,6 +21,7 @@ class User {
     required String phone,
     required String role,
     required String profileImage,
+    required String backgroundImage,
     required String status,
     required DateTime cts,
     required DateTime uts,
@@ -31,6 +33,7 @@ class User {
        _phone = phone,
        _role = role,
        _profileImage = profileImage,
+       _backgroundImage = backgroundImage,
        _status = status,
        _createTimestamp = cts,
        _updateTimestamp = uts;
@@ -45,6 +48,7 @@ class User {
       gender: json["gender"],
       role: json["role"],
       profileImage: json["profile_image"] ?? "",
+      backgroundImage: json["background_image"] ?? "",
       status: json["status"],
       cts: json["create_timestamp"],
       uts: json["update_timestamp"],
@@ -59,6 +63,7 @@ class User {
   String get phone => _phone;
   String get role => _role;
   String get profileImage => _profileImage;
+  String get backgroundImage => _backgroundImage;
   String get status => _status;
   DateTime get createTimestamp => _createTimestamp;
   DateTime get updateTimestamp => _updateTimestamp;

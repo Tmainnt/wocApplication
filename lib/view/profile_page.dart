@@ -49,10 +49,13 @@ class _ProfilePageState extends State<ProfilePage>{
               Container(
                 height: 70,
                 decoration: BoxDecoration(
-                  color: Colors.white
+                  color: Colors.white,
+                  shape: BoxShape.circle,
                 ),
                 child: ClipRRect(
-                  child: SizedBox(),
+                  child: SizedBox(
+                    height: 69,
+                  ),
                 ),
               ),
             ],

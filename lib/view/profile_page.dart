@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:woc/provider/user_provider.dart';
 import 'package:woc/theme/widget_color.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -15,6 +17,8 @@ class _ProfilePageState extends State<ProfilePage>{
 
   @override
   Widget build(BuildContext context){
+    final userData = Provider.of<UserProvider>(context, listen: true).queryUser;
+    
     return Column(
       children: <Widget>[
         Container(
@@ -27,7 +31,22 @@ class _ProfilePageState extends State<ProfilePage>{
                 offset: Offset(0,0), 
                 blurRadius: 5,
               )
-            ]
+            ],
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(10), 
+              bottomRight: Radius.circular(10)
+            ),
+            color: Colors.white
+          ),
+          child: Stack(
+            children: [
+              SizedBox(
+                height: 70,
+                width: double.infinity,
+                child:  userData == null ? Image.asset("") : userData.profileImage.isEmpty 
+                        ? Image.asset("") : Image.network(userData.profileImage),
+              ),
+            ],
           ),
         ),
       ]

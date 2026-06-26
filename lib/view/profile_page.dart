@@ -55,6 +55,9 @@ class _ProfilePageState extends State<ProfilePage>{
                 child: ClipRRect(
                   child: SizedBox(
                     height: 69,
+                    child: userData == null ? Image.asset("") 
+                          : userData.profileImage.isEmpty ? Image.asset("") 
+                          : Image.network(userData.profileImage)),
                   ),
                 ),
               ),

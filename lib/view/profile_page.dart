@@ -40,6 +40,16 @@ class _ProfilePageState extends State<ProfilePage>{
           ),
           child: Stack(
             children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: 
+                    ),
+                  ],
+                ),
+              ),
               SizedBox(
                 height: 70,
                 width: double.infinity,

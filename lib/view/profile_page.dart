@@ -41,11 +41,15 @@ class _ProfilePageState extends State<ProfilePage>{
           child: Stack(
             children: [
               Container(
+                height: 150,
+                width: double.infinity,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   boxShadow: [
                     BoxShadow(
-                      color: 
+                      color: widgetColor.widgetShadow(),
+                      offset: Offset(0,0),
+                      blurRadius: 3
                     ),
                   ],
                 ),

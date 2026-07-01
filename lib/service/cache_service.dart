@@ -5,8 +5,13 @@ import "package:woc/provider/user_provider.dart";
 class CacheService {
     final _cacheStorage  = CacheStorage.open();
     
-    User getUserData(){
-        return _cacheStorage.match(key: "user_data");
+    dynamic getUserData(){
+        final userData = _cacheStorage.match(key: "user_data");
+        if (userData.runtimeType == User) {
+            return userData;
+        } else {
+            return null;
+        }
     }
 
     void saveUserData(User userData){
@@ -17,6 +22,8 @@ class CacheService {
     void setUserProvider() {
         UserProvider userProvider = UserProvider();
         final userData = getUserData();
-        userProvider.setUser(userData);
+        if (userData != null) {
+            userProvider.setUser(userData);
+        }
     }   
 }

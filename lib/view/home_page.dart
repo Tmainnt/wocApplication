@@ -6,8 +6,6 @@ import 'package:woc/model/post.dart';
 import 'package:woc/provider/user_provider.dart';
 import 'package:woc/service/post_service.dart';
 import 'package:woc/widget/community/create_post_card.dart';
-import 'package:woc/theme/text_color.dart';
-import 'package:woc/theme/widget_color.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -17,6 +15,7 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
+  
   PostService postService = PostService();
 
   @override

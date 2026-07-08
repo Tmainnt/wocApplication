@@ -18,6 +18,7 @@ type Post struct {
 	PostStatus      string `json:"post_status"`
 	LikeCount       int    `json:"like_count"`
 	CommentCount    int    `json:"comment_count"`
+	reportCount 	int    `json:"report_count"`
 }
 
 func GetAllPost(db *sql.DB) http.HandlerFunc {
@@ -44,7 +45,7 @@ func GetMyPost(db *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		claims := r.Context().Value(auth.UserContextKey).(*auth.Claims)
 
-		row, err := db.Query(`SELECT post_id, user_id_pk, post_content, post_image, create_timestamp, update_timestamp FROM post WHERE user_id_pk = $1`, claims.UserID)
+		row, err := db.Query(`SELECT post_id, user_id_pk, post_content, post_image, like_count, comment_count, report_count, create_timestamp, update_timestamp FROM post WHERE user_id_pk = $1`, claims.UserID)
 
 		if err != nil {
 			http.Error(w, "Error fetch data", 500)
@@ -57,7 +58,7 @@ func GetMyPost(db *sql.DB) http.HandlerFunc {
 
 		for row.Next() {
 			var p Post
-			row.Scan(&p.PostID, &p.UserID, &p.Content, &p.Image, &p.CreateTimestamp, &p.UpdateTimestamp)
+			row.Scan(&p.PostID, &p.UserID, &p.Content, &p.Image, &p.like_count, &p.comment_count, &p.report_count, &p.CreateTimestamp, &p.UpdateTimestamp)
 			posts = append(posts, p)
 		}
 

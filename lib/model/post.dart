@@ -9,6 +9,7 @@ class Post {
   String _postStatus;
   int _likeCount;
   int _commentCount;
+  int _reportCount;
 
   Post({
     required int postId,
@@ -21,6 +22,7 @@ class Post {
     required String postS,
     required int likeCount,
     required int commentCount,
+    required int reportCount,
   }) : _postId = postId,
        _userId = userId,
        _content = content,
@@ -30,7 +32,8 @@ class Post {
        _postVisibility = postV,
        _postStatus = postS,
        _likeCount = likeCount,
-       _commentCount = commentCount;
+       _commentCount = commentCount,
+       _reportCount = reportCount;
 
   factory Post.fromJson(Map<String, dynamic> json) {
     return Post(
@@ -44,6 +47,7 @@ class Post {
       postS: json["post_status"],
       likeCount: json["like_count"],
       commentCount: json["comment_count"],
+      reportCount: json["report_count"],
     );
   }
 
@@ -57,4 +61,5 @@ class Post {
   String get postStatus => _postStatus;
   int get likeCount => _likeCount;
   int get commentCount => _commentCount;
+  int get reportCount => _reportCount;
 }

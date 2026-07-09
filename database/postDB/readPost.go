@@ -18,7 +18,7 @@ type Post struct {
 	PostStatus      string `json:"post_status"`
 	LikeCount       int    `json:"like_count"`
 	CommentCount    int    `json:"comment_count"`
-	reportCount 	int    `json:"report_count"`
+	ReportCount     int    `json:"report_count"`
 }
 
 func GetAllPost(db *sql.DB) http.HandlerFunc {
@@ -58,7 +58,7 @@ func GetMyPost(db *sql.DB) http.HandlerFunc {
 
 		for row.Next() {
 			var p Post
-			row.Scan(&p.PostID, &p.UserID, &p.Content, &p.Image, &p.like_count, &p.comment_count, &p.report_count, &p.CreateTimestamp, &p.UpdateTimestamp)
+			row.Scan(&p.PostID, &p.UserID, &p.Content, &p.Image, &p.LikeCount, &p.CommentCount, &p.ReportCount, &p.CreateTimestamp, &p.UpdateTimestamp)
 			posts = append(posts, p)
 		}
 

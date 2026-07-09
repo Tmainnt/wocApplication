@@ -6,12 +6,7 @@ class CacheService {
     final _cacheStorage  = CacheStorage.open();
     
     dynamic getUserData(){
-        final userData = _cacheStorage.match(key: "user_data");
-        if (userData.runtimeType == User) {
-            return userData;
-        } else {
-            return null;
-        }
+        return _cacheStorage.match(key: "user_data");
     }
 
     void saveUserData(User userData){
@@ -25,5 +20,9 @@ class CacheService {
         if (userData != null) {
             userProvider.setUser(userData);
         }
-    }   
+    }
+
+    void storeToCache(User userData){
+      _cacheStorage.save(key: "user_data", value: userData);
+    }
 }

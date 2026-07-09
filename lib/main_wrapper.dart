@@ -56,8 +56,8 @@ class _MainWrapperState extends State<MainWrapper> {
                           MaterialPageRoute(builder: (context) => HomePage()),
                         );
                       },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                      child: Row(   
+                        mainAxisAlignment:  MainAxisAlignment.start,
                         children: [
                           Icon(
                             Icons.home,

@@ -43,8 +43,8 @@ class CreatePostCardState extends State<CreatePostCard> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   CircleAvatar(
-                    backgroundImage: user!.profileImage.isNotEmpty
-                        ? NetworkImage(user.profileImage)
+                    backgroundImage: user!.backgroundImage.isNotEmpty
+                        ? NetworkImage(user.backgroundImage)
                         : AssetImage('assets/image/profileImage.png'),
                   ),
                   Column(

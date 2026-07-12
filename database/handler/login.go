@@ -1,7 +1,9 @@
 package handler
 
 import (
+	"crypto/sha256"
 	"database/sql"
+	"encoding/hex"
 	"encoding/json"
 	"log"
 	"net/http"
@@ -32,6 +34,11 @@ type User struct {
 	Status          string    `json:"user_status"`
 	CreateTimestamp time.Time `json:"create_timestamp"`
 	UpdateTimestamp time.Time `json:"update_timestamp"`
+}
+
+func HashToken(token string) string {
+	hash := sha256.Sum256([]byte(token))
+	return hex.EncodeToString(hash[:])
 }
 
 func LoginHandler(db *sql.DB) http.HandlerFunc {
@@ -92,22 +99,33 @@ func LoginHandler(db *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		db.Exec(`DELETE FROM refresh_token WHERE user_id_fk = $1`, user.ID)
+		_, err = db.Exec(
+			`DELETE FROM refresh_token WHERE user_id_fk = $1`,
+			user.ID,
+		)
+		if err != nil {
+			log.Println(err)
+			http.Error(w, "Can't delete old refresh token.", http.StatusInternalServerError)
+			return
+		}
 
 		token, err := auth.GenerateAccessToken(user.ID, user.Email, user.Role)
 		if err != nil {
+			log.Println(err)
 			http.Error(w, "Can't generate token.", 500)
 			return
 		}
 
-		_, err = db.Exec("UPDATE users SET status=$2 WHERE user_email = $1", user.Email, "Active")
+		_, err = db.Exec("UPDATE users SET user_status=$2 WHERE user_email = $1", user.Email, "active")
 		if err != nil {
+			log.Println(err)
 			http.Error(w, "Can't update database.", 500)
 			return
 		}
 
 		refreshToken, err := auth.GenerateRefreshToken(user.ID, user.Email, user.Role)
 		if err != nil {
+			log.Println(err)
 			http.Error(w, "Can't generate token.", 500)
 			return
 		}
@@ -122,15 +140,16 @@ func LoginHandler(db *sql.DB) http.HandlerFunc {
 			Path:     "/refresh",
 		})
 
-		hashToken, err := bcrypt.GenerateFromPassword([]byte(refreshToken), bcrypt.DefaultCost)
-		if err != nil {
-			http.Error(w, "hash failed.", 500)
-			return
-		}
+		// debug line 135, 136
+		log.Println(refreshToken)
+		log.Println(len(refreshToken))
+
+		hashToken := HashToken(refreshToken)
 
 		_, err = db.Exec(`INSERT INTO refresh_token (user_id_fk, token, expires_timestamp)
     VALUES ($1, $2, $3)`, user.ID, hashToken, time.Now().Add(7*24*time.Hour))
 		if err != nil {
+			log.Println(err)
 			http.Error(w, "Can't save token", 500)
 			return
 		}

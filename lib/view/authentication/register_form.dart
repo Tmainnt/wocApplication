@@ -185,15 +185,15 @@ class RegisterFormState extends State<RegisterForm> {
                                               dropdownMenuEntries:
                                                   <DropdownMenuEntry<String>>[
                                                     DropdownMenuEntry(
-                                                      value: "Male",
+                                                      value: "male",
                                                       label: "ชาย",
                                                     ),
                                                     DropdownMenuEntry(
-                                                      value: "Female",
+                                                      value: "female",
                                                       label: "หญิง",
                                                     ),
                                                     DropdownMenuEntry(
-                                                      value: "Other",
+                                                      value: "other",
                                                       label: "อื่นๆ",
                                                     ),
                                                   ],

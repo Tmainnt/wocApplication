@@ -19,8 +19,6 @@ class AuthService {
       final userData = User.fromJson(data['user'], data['token']);
       return userData;
     } else {
-      print(response.statusCode);
-      print(response.body);
       throw Exception("Failed to fetch user data");
     }
   }

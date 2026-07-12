@@ -23,12 +23,13 @@ type User struct {
 	Email           string    `json:"user_email"`
 	FName           string    `json:"first_name"`
 	LName           string    `json:"last_name"`
-	Gender          string    `json:"gender"`
+	Gender          string    `json:"user_gender"`
 	DOF             time.Time `json:"date_of_birth"`
-	PhoneNB         string    `json:"phone_number"`
-	Role            string    `json:"role"`
-	ProfileImage    string    `json:"profile_image"`
-	Status          string    `json:"status"`
+	PhoneNB         string    `json:"user_phone"`
+	Role            string    `json:"user_role"`
+	ProfileImage    string    `json:"user_user_profile_image"`
+	BackgroundImage string    `json:"user_background_image"`
+	Status          string    `json:"user_status"`
 	CreateTimestamp time.Time `json:"create_timestamp"`
 	UpdateTimestamp time.Time `json:"update_timestamp"`
 }
@@ -51,7 +52,7 @@ func LoginHandler(db *sql.DB) http.HandlerFunc {
 		}
 
 		err = db.QueryRow(
-			`SELECT user_id, user_name, user_email, gender, date_of_birth, phone_number, user_pass, role, profile_image, status, create_timestamp, update_timestamp 
+			`SELECT user_id, user_name, user_email, user_gender, date_of_birth, user_phone, user_pass, user_role, user_profile_image, user_background_image, user_status, create_timestamp, update_timestamp 
 	 FROM users WHERE user_email=$1`,
 			req.Req_Email,
 		).Scan(
@@ -64,6 +65,8 @@ func LoginHandler(db *sql.DB) http.HandlerFunc {
 			&user.Password,
 			&user.Role,
 			&user.ProfileImage,
+			&user.BackgroundImage,
+			&user.Status,
 			&user.CreateTimestamp,
 			&user.UpdateTimestamp,
 		)

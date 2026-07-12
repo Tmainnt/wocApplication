@@ -19,6 +19,8 @@ class AuthService {
       final userData = User.fromJson(data['user'], data['token']);
       return userData;
     } else {
+      print(response.statusCode);
+      print(response.body);
       throw Exception("Failed to fetch user data");
     }
   }
@@ -47,9 +49,9 @@ class AuthService {
         "user_name": name,
         "user_email": email,
         "user_pass": password,
-        "gender": selectedGender,
+        "user_gender": selectedGender,
         "date_of_birth": dob,
-        "phone_number": phoneNumber,
+        "user_phone": phoneNumber,
       }),
     );
 

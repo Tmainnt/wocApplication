@@ -140,10 +140,6 @@ func LoginHandler(db *sql.DB) http.HandlerFunc {
 			Path:     "/refresh",
 		})
 
-		// debug line 135, 136
-		log.Println(refreshToken)
-		log.Println(len(refreshToken))
-
 		hashToken := HashToken(refreshToken)
 
 		_, err = db.Exec(`INSERT INTO refresh_token (user_id_fk, token, expires_timestamp)

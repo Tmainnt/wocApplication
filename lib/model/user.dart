@@ -43,15 +43,15 @@ class User {
       token: tokenStr,
       email: json["user_email"],
       name: json["user_name"],
-      dob: json["date_of_birth"],
+      dob: DateTime.parse(json["date_of_birth"]),
       phone: json["phone_number"] ?? "",
       gender: json["user_gender"],
       role: json["user_role"],
-      profileImage: json["profile_image"] ?? "",
-      backgroundImage: json["background_image"] ?? "",
+      profileImage: json["user_profile_image"] ?? "",
+      backgroundImage: json["user_background_image"] ?? "",
       status: json["user_status"],
-      cts: json["create_timestamp"],
-      uts: json["update_timestamp"],
+      cts: DateTime.parse(json["create_timestamp"]),
+      uts: DateTime.parse(json["update_timestamp"]),
     );
   }
 

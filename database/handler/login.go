@@ -130,16 +130,6 @@ func LoginHandler(db *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		http.SetCookie(w, &http.Cookie{
-			Name:     "refresh_token",
-			Value:    refreshToken,
-			HttpOnly: true,
-			Secure:   true,
-			SameSite: http.SameSiteStrictMode,
-			Expires:  time.Now().Add(7 * 24 * time.Hour),
-			Path:     "/refresh",
-		})
-
 		hashToken := HashToken(refreshToken)
 
 		_, err = db.Exec(`INSERT INTO refresh_token (user_id_fk, token, expires_timestamp)
@@ -153,9 +143,10 @@ func LoginHandler(db *sql.DB) http.HandlerFunc {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 		json.NewEncoder(w).Encode(map[string]interface{}{
-			"message": "success",
-			"token":   token,
-			"user":    user,
+			"message":       "success",
+			"access_token":  token,
+			"refresh_token": refreshToken,
+			"user":          user,
 		})
 	}
 }

@@ -2,6 +2,7 @@ import "dart:convert";
 
 import "package:http/http.dart" as http;
 import "package:woc/model/user.dart";
+import "package:woc/service/token_service.dart";
 
 class AuthService {
   Future<User> loginResponseStatusCode(String email, String password) async {
@@ -16,7 +17,8 @@ class AuthService {
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
-      final userData = User.fromJson(data['user'], data['token']);
+      final userData = User.fromJson(data['user'], data['access_token']);
+      await TokenService.saveToken(data['access_token'], data['refresh_token']);
       return userData;
     } else {
       throw Exception("Failed to fetch user data");
@@ -56,5 +58,24 @@ class AuthService {
     if (response.statusCode != 201) {
       throw Exception("Register failed");
     }
+  }
+
+  Future<bool> refresh() async {
+    final url = Uri.parse(
+      "https://kindling-magnifier-late.ngrok-free.dev/refresh",
+    );
+    final token = await TokenService.getRefreshToken();
+
+    final response = await http.post(url, body: jsonEncode({
+      "refresh_token": token
+    }));
+
+    if (response.statusCode != 200) {
+      return false;
+    }
+
+    final data = jsonDecode(response.body);
+    await TokenService.saveToken(data["access_token"], data["refresh_token"]);
+    return true;
   }
 }

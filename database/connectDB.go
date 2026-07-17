@@ -16,10 +16,6 @@ import (
 
 	"github.com/cloudinary/cloudinary-go/v2"
 	"github.com/joho/godotenv"
-
-	//"github.com/cloudinary/cloudinary-go/v2/api"
-	//"github.com/cloudinary/cloudinary-go/v2/api/admin"
-	//"github.com/cloudinary/cloudinary-go/v2/api/uploader"
 	"context"
 
 	_ "github.com/lib/pq"

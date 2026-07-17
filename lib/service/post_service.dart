@@ -11,6 +11,9 @@ class PostService {
     );
     final response = await http.post(url);
     if (response.statusCode != 200) {
+      // debug
+    print("Status Code: ${response.statusCode}\nBody: ${response.body}");
+
       throw Exception("failed to fetch post.");
     }
 

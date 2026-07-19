@@ -27,15 +27,21 @@ class HomePageState extends State<HomePage> {
         future: postService.readAllPost(),
         builder: (context, snapshot) {
           final checkSnapshot = postService.checkHasData(snapshot);
-          if (checkSnapshot.runtimeType != Bool) {
+          if (checkSnapshot != true) {
             return checkSnapshot;
           }
 
-          final data = snapshot.data!;
-          return ListView.builder(
-            itemBuilder: (context, index) => CreatePostCard(post: data[index]),
-            itemCount: data.length + 1,
-          );
+          final data = snapshot.data;
+          if (data == null || data.isEmpty) {
+            return Center(
+                child: Text("No Post.")
+              );
+          } else {
+            return ListView.builder(
+              itemBuilder: (context, index) => CreatePostCard(post: data[index - 1]),
+              itemCount: data.length + 1,
+            );
+          }
         },
       ),
       

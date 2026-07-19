@@ -17,6 +17,9 @@ class PostService {
       throw Exception("failed to fetch post.");
     }
 
+    if (jsonDecode(response.body) == null){
+      return [];
+    }
     final List data = jsonDecode(response.body) as List;
     return data.map((e) => Post.fromJson(e)).toList();
   }

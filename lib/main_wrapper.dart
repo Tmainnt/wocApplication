@@ -4,6 +4,7 @@ import 'package:woc/provider/user_provider.dart';
 import 'package:woc/service/token_service.dart';
 import 'package:woc/theme/text_color.dart';
 import 'package:woc/theme/widget_color.dart';
+import 'package:woc/view/activity/pedometer_page.dart';
 import 'package:woc/view/authentication/login_form.dart';
 import 'package:woc/view/community/chat_page.dart';
 import 'package:woc/view/home_page.dart';
@@ -26,6 +27,7 @@ class _MainWrapperState extends State<MainWrapper> {
   int currentIndex = 0;
   final List<Widget> pages = [
     HomePage(),
+    PedometerPage(),
     ProfilePage(),
   ];
 
@@ -163,10 +165,7 @@ class _MainWrapperState extends State<MainWrapper> {
             ),
           );
         }
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          home: LoginForm(),
-        );
+        return LoginForm();
       },
     );
   }

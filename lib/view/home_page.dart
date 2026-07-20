@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:woc/model/post.dart';
 import 'package:woc/provider/user_provider.dart';
 import 'package:woc/service/post_service.dart';
+import 'package:woc/theme/widget_color.dart';
 import 'package:woc/widget/community/create_post_card.dart';
 
 class HomePage extends StatefulWidget {
@@ -37,9 +38,26 @@ class HomePageState extends State<HomePage> {
                 child: Text("No Post.")
               );
           } else {
-            return ListView.builder(
-              itemBuilder: (context, index) => CreatePostCard(post: data[index - 1]),
-              itemCount: data.length + 1,
+            return Column(
+              children: [
+                Container(
+                  width: double.infinity,
+                  height: 150,
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: WidgetColor().widgetShadow(), 
+                        blurRadius: 5, 
+                        offset: Offset(1, 2)
+                      )
+                    ],
+                  ),
+                ),
+                ListView.builder(
+                  itemBuilder: (context, index) => CreatePostCard(post: data[index - 1]),
+                  itemCount: data.length + 1,
+                ),
+              ],
             );
           }
         },

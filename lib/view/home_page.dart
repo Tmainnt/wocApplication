@@ -40,17 +40,25 @@ class HomePageState extends State<HomePage> {
           } else {
             return Column(
               children: [
-                Container(
-                  width: double.infinity,
-                  height: 150,
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: WidgetColor().widgetShadow(), 
-                        blurRadius: 5, 
-                        offset: Offset(1, 2)
-                      )
-                    ],
+                GestureDetector(
+                  child: Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: WidgetColor().widgetShadow(), 
+                          blurRadius: 5, 
+                          offset: Offset(1, 2)
+                        )
+                      ],
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("Add Post"),
+                        Icon(Icons.add),
+                      ],
+                    ),
                   ),
                 ),
                 ListView.builder(

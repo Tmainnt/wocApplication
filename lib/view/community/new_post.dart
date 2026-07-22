@@ -17,13 +17,11 @@ class NewPostState extends State<NewPost> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(leading: Icon(Icons.cancel, color: Colors.white,),),
-      body: Container(
-        child: Column(
-          children: [
-            TextField(),
-            Image.file(image),
-          ],
-        ),
+      body: Column(
+        children: [
+          TextField(),
+          Image.file(image)
+        ],
       ),
     );
   }

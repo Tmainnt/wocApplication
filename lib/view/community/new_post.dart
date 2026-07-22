@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 class NewPost extends StatefulWidget {
@@ -8,8 +10,21 @@ class NewPost extends StatefulWidget {
 }
 
 class NewPostState extends State<NewPost> {
+
+  late File image;
+
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(leading: Icon(Icons.cancel, color: Colors.white,),),
+      body: Container(
+        child: Column(
+          children: [
+            TextField(),
+            Image.file(image),
+          ],
+        ),
+      ),
+    );
   }
 }

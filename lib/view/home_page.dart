@@ -4,6 +4,7 @@ import 'package:woc/model/post.dart';
 import 'package:woc/provider/user_provider.dart';
 import 'package:woc/service/post_service.dart';
 import 'package:woc/theme/widget_color.dart';
+import 'package:woc/view/community/new_post.dart';
 import 'package:woc/widget/community/create_post_card.dart';
 
 class HomePage extends StatefulWidget {
@@ -39,6 +40,7 @@ class HomePageState extends State<HomePage> {
             return Column(
               children: [
                 GestureDetector(
+                  onTap: () => Navigator.push(context, MaterialPageRoute(builder:(context) => NewPost(),)),
                   child: Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
@@ -47,7 +49,7 @@ class HomePageState extends State<HomePage> {
                           color: WidgetColor().widgetShadow(), 
                           blurRadius: 5, 
                           offset: Offset(1, 2)
-                        )
+                        ) 
                       ],
                     ),
                     child: Row(

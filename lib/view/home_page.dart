@@ -20,7 +20,6 @@ class HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final userData = Provider.of<UserProvider>(context, listen: true).queryUser;
     return Scaffold(
       
       body: FutureBuilder<List<Post>>(

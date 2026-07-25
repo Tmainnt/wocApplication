@@ -4,11 +4,11 @@ import 'package:woc/theme/widget_color.dart';
 
 class WidgetBottomAppbar extends StatelessWidget {
   
-  IconData widgetIcon;
-  String text;
-  dynamic page;
+  final IconData widgetIcon;
+  final String text;
+  final dynamic page;
 
-  WidgetBottomAppbar({super.key, required this.widgetIcon, required this.text, required this.page});
+  const WidgetBottomAppbar({super.key, required this.widgetIcon, required this.text, required this.page});
 
   @override
   Widget build(BuildContext context) {

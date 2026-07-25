@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:woc/theme/widget_color.dart';
+import 'package:woc/widget/community/widget_bottom_appbar.dart';
 
 class NewPost extends StatefulWidget {
   const NewPost({super.key});
@@ -46,23 +47,9 @@ class NewPostState extends State<NewPost> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    GestureDetector(
-                      onTap: (){},
-                      child: Container(
-                        width: 70,
-                        height: 70,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(3),
-                          boxShadow: [
-                            BoxShadow(
-                              color: WidgetColor().widgetShadow(), 
-                              blurRadius: 5,
-                              offset: Offset(0, 0),
-                            ),
-                          ]
-                        ),
-                      ),
-                    ),
+                    WidgetBottomAppbar(widgetIcon: Icons.camera_alt, text: "ถ่ายภาพ", page: Object()),
+                    WidgetBottomAppbar(widgetIcon: Icons.add_photo_alternate_outlined, text: "เพิ่มรูปภาพ", page: Object()), // เปลี่ยน Object เป็น Page นั้นๆในภายหลัง
+                    WidgetBottomAppbar(widgetIcon: Icons.emoji_emotions_outlined, text: "ความรู้สึก", page: Object()),
                   ],
                 ),
               ),

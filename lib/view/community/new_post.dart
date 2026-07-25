@@ -22,10 +22,17 @@ class NewPostState extends State<NewPost> {
       appBar: TopAppbar(
         centerText: '', 
         leadingContent: Icon(Icons.cancel), 
-        trailingContent: ElevatedButton(
-          onPressed: (){}, 
-          child: Text("บันทึก"),
-        )
+        trailingContent: Container(
+          decoration: BoxDecoration(
+            color: Colors.blue,
+            borderRadius: BorderRadius.circular(3)
+          ),
+          width: 30, // random width will replace soon!
+          height: 30, // random height will replace soon!
+          child: Center(
+            child: Text("บันทึก", style: TextStyle(color: Colors.white)),
+          ),
+        ),
       ),
       body: Column(
         children: [

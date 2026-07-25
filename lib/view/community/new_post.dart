@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:woc/theme/widget_color.dart';
+import 'package:woc/widget/appbar/top_appbar.dart';
 import 'package:woc/widget/community/widget_bottom_appbar.dart';
 
 class NewPost extends StatefulWidget {
@@ -18,7 +19,14 @@ class NewPostState extends State<NewPost> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(leading: Icon(Icons.cancel, color: Colors.white,),),
+      appBar: TopAppbar(
+        centerText: '', 
+        leadingContent: Icon(Icons.cancel), 
+        trailingContent: ElevatedButton(
+          onPressed: (){}, 
+          child: Text("บันทึก"),
+        )
+      ),
       body: Column(
         children: [
           TextField(),
@@ -43,15 +51,13 @@ class NewPostState extends State<NewPost> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    WidgetBottomAppbar(widgetIcon: Icons.camera_alt, text: "ถ่ายภาพ", page: Object()),
-                    WidgetBottomAppbar(widgetIcon: Icons.add_photo_alternate_outlined, text: "เพิ่มรูปภาพ", page: Object()), // เปลี่ยน Object เป็น Page นั้นๆในภายหลัง
-                    WidgetBottomAppbar(widgetIcon: Icons.emoji_emotions_outlined, text: "ความรู้สึก", page: Object()),
-                  ],
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  WidgetBottomAppbar(widgetIcon: Icons.camera_alt, text: "ถ่ายภาพ", page: Object()),
+                  WidgetBottomAppbar(widgetIcon: Icons.add_photo_alternate_outlined, text: "เพิ่มรูปภาพ", page: Object()), // เปลี่ยน Object เป็น Page นั้นๆในภายหลัง
+                  WidgetBottomAppbar(widgetIcon: Icons.emoji_emotions_outlined, text: "ความรู้สึก", page: Object()),
+                ],
               ),
             ],
           ),

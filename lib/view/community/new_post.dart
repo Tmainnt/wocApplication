@@ -34,12 +34,20 @@ class NewPostState extends State<NewPost> {
           ),
         ),
       ),
-      body: Column(
-        children: [
-          TextField(),
-          Image.file(image)
-        ],
+      body: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Column(
+          children: [
+            Expanded(
+              child: TextField(),
+            ),
+            Expanded(
+              child: Image.file(image),
+            ),
+          ],
+        ),
       ),
+      
       bottomNavigationBar: BottomAppBar(
         color: Colors.transparent,
         surfaceTintColor: Colors.transparent,

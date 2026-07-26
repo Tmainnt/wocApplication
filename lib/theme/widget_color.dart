@@ -1,6 +1,12 @@
 import "package:flutter/material.dart";
 
 class WidgetColor {
+
+  static final WidgetColor _instance = WidgetColor()._internal();
+  WidgetColor._internal();
+
+  factory WidgetColor() => _instance;
+
   Color textfieldShadow() => Color.fromARGB(255, 158, 158, 158);
 
   Color widgetShadow() => Color.fromARGB(255, 158, 158, 158);

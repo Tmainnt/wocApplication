@@ -2,26 +2,21 @@ import "package:flutter/material.dart";
 
 class WidgetColor {
 
-  static final WidgetColor _instance = WidgetColor()._internal();
-  WidgetColor._internal();
+  const Color textfieldShadow() => Color.fromARGB(255, 158, 158, 158);
 
-  factory WidgetColor() => _instance;
+  const Color widgetShadow() => Color.fromARGB(255, 158, 158, 158);
 
-  Color textfieldShadow() => Color.fromARGB(255, 158, 158, 158);
+  const Color elevatedButtonAuth() => Color.fromARGB(255, 124, 139, 253);
 
-  Color widgetShadow() => Color.fromARGB(255, 158, 158, 158);
+  const Color dividerColor() => Color.fromARGB(255, 158, 158, 158);
 
-  Color elevatedButtonAuth() => Color.fromARGB(255, 124, 139, 253);
+  const Color cancel() => Colors.red;
 
-  Color dividerColor() => Color.fromARGB(255, 158, 158, 158);
-
-  Color cancel() => Colors.red;
-
-  List<Color> topNavbar() => [
+  const List<Color> topNavbar() => [
     Color.fromARGB(255, 5, 30, 141),
     Color.fromARGB(255, 105, 58, 233),
     Color.fromARGB(255, 105, 3, 95),
   ];
 
-  Color iconWithBlackBackground() => Color.fromARGB(255, 158, 158, 158);
+   const Color iconWithBlackBackground() => Color.fromARGB(255, 158, 158, 158);
 }

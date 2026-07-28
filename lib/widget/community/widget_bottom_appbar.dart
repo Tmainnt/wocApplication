@@ -6,15 +6,15 @@ class WidgetBottomAppbar extends StatelessWidget {
   
   final IconData widgetIcon;
   final String text;
-  final dynamic page;
+  final VoidCallback action;
 
-  const WidgetBottomAppbar({super.key, required this.widgetIcon, required this.text, required this.page});
+  const WidgetBottomAppbar({super.key, required this.widgetIcon, required this.text, required this.action});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => page));
+        action;
       },
       child: Container(
         width: 70,

@@ -17,9 +17,7 @@ class NewPost extends StatefulWidget {
 class NewPostState extends State<NewPost> {
 
   File? _image;
-  String? _networkImage;
   final ImagePicker _picker = ImagePicker();
-  String? _oldImage;
 
   Future<void> _pickeImage(ImageSource source) async {
     final XFile? pickedFile = await _picker.pickImage(
@@ -82,18 +80,44 @@ class NewPostState extends State<NewPost> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Column(
-          children: [
-            Expanded(
-              child: TextField(),
+      body: Column(
+        children: [
+          Container(),
+          Divider(),
+          Expanded(
+            child: ListView(
+              children: [
+                TextField(),
+                SizedBox(height: 15,),
+                (_image != null) ? Stack(
+                  children: [
+                    Image.file(_image!),
+                    Positioned(
+                      right: 12,
+                      top: 12,
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _image = null;
+                          });
+                        },
+                        child: CircleAvatar(
+                          radius: 12,
+                          backgroundColor: Colors.black54,
+                          child: Icon(
+                            Icons.close,
+                            size: 14,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ) : SizedBox()
+              ],
             ),
-            Expanded(
-              child: Image.file(image),
-            ),
-          ],
-        ),
+          )
+        ]
       ),
       
       bottomNavigationBar: BottomAppBar(

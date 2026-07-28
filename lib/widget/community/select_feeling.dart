@@ -6,8 +6,7 @@ import 'package:woc/model/post.dart';
 
 class SelectFeeling extends StatefulWidget {
 
-  final Post post;
-  const SelectFeeling({super.key, required this.post});
+  const SelectFeeling({super.key});
 
   @override
   State<SelectFeeling> createState() => SelectFeelingState();

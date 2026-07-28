@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:woc/theme/widget_color.dart';
 import 'package:woc/widget/appbar/top_appbar.dart';
 import 'package:woc/widget/community/widget_bottom_appbar.dart';
+import 'package:image_picker/image_picker.dart';
 
 class NewPost extends StatefulWidget {
   const NewPost({super.key});
@@ -14,7 +15,24 @@ class NewPost extends StatefulWidget {
 
 class NewPostState extends State<NewPost> {
 
-  late File image;
+  File? _image;
+  String? _networkImage;
+  final ImagePicker _picker = ImagePicker();
+  String? _oldImage;
+
+  Future<void> _pickeImage(ImageSource source) async {
+    final XFile? pickedFile = await _picker.pickImage(
+      source: source,
+      imageQuality: 80,
+      maxHeight: 1024
+    );
+
+    if (pickedFile != null) {
+      setState(() {
+        _image = File(pickedFile.path);
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

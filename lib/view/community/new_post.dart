@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:woc/theme/widget_color.dart';
 import 'package:woc/widget/appbar/top_appbar.dart';
+import 'package:woc/widget/community/select_feeling.dart';
 import 'package:woc/widget/community/widget_bottom_appbar.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -32,6 +33,35 @@ class NewPostState extends State<NewPost> {
         _image = File(pickedFile.path);
       });
     }
+  }
+
+  void _showImageSourceActionSheet() {
+    showModalBottomSheet(
+      context: context, 
+      builder: (_) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.photo),
+              title: const Text("เลือกจาก Gallery"),
+              onTap: () {
+                Navigator.pop(context);
+                _pickeImage(ImageSource.gallery);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.camera_alt),
+              title: const Text("ถ่ายภาพ"),
+              onTap: () {
+                Navigator.pop(context);
+                _pickeImage(ImageSource.camera);
+              },
+            ),
+          ],
+        ),
+      )
+    );
   }
 
   @override
@@ -87,9 +117,8 @@ class NewPostState extends State<NewPost> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  WidgetBottomAppbar(widgetIcon: Icons.camera_alt, text: "ถ่ายภาพ", page: Object()),
-                  WidgetBottomAppbar(widgetIcon: Icons.add_photo_alternate_outlined, text: "เพิ่มรูปภาพ", page: Object()), // เปลี่ยน Object เป็น Page นั้นๆในภายหลัง
-                  WidgetBottomAppbar(widgetIcon: Icons.emoji_emotions_outlined, text: "ความรู้สึก", page: Object()),
+                  WidgetBottomAppbar(widgetIcon: Icons.add_photo_alternate_outlined, text: "ถ่ายภาพ", action: _showImageSourceActionSheet),// เปลี่ยน Object เป็น Page นั้นๆในภายหลัง
+                  WidgetBottomAppbar(widgetIcon: Icons.emoji_emotions_outlined, text: "ความรู้สึก", action: () { Navigator.push(context, MaterialPageRoute( builder: (_) => const SelectFeeling()),);}),
                 ],
               ),
             ],

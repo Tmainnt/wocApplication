@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:woc/provider/user_provider.dart';
 import 'package:woc/theme/widget_color.dart';
-import 'package:woc/model/post.dart';
 
 class SelectFeeling extends StatefulWidget {
 

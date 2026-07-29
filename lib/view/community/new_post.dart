@@ -16,6 +16,7 @@ class NewPost extends StatefulWidget {
 
 class NewPostState extends State<NewPost> {
 
+  TextEditingController contentController = TextEditingController();
   File? _image;
   final ImagePicker _picker = ImagePicker();
 
@@ -87,7 +88,20 @@ class NewPostState extends State<NewPost> {
           Expanded(
             child: ListView(
               children: [
-                TextField(),
+                TextField(
+                  onChanged: (value) {
+                    setState(() {});
+                  },
+                  controller: contentController,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.fromLTRB(10,25,0,0),
+                  ),
+                  keyboardType: TextInputType.multiline,
+                  minLines: 1,
+                  maxLength: null,
+                  textInputAction: TextInputAction.newline,
+                ),
                 SizedBox(height: 15,),
                 (_image != null) ? Stack(
                   children: [

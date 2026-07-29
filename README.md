@@ -1,5 +1,9 @@
 # woc
 
 *** Todo ***
-- make cache can expired
-- finish backend
+- finish community section
+- workout section
+- chat
+- profile
+- pedometer
+- pedometer and workout history

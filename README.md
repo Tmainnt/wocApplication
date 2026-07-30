@@ -7,3 +7,4 @@
 - profile
 - pedometer
 - pedometer and workout history
+- setting: user can change font, language, theme color

@@ -5,6 +5,7 @@ import 'package:woc/theme/text_color.dart';
 import 'package:woc/theme/widget_color.dart';
 import 'package:woc/view/authentication/login_form.dart';
 import 'package:woc/widget/auth/custom_textfield.dart';
+import 'package:woc/constant/app_enum.dart';
 
 class RegisterForm extends StatefulWidget {
   const RegisterForm({super.key});
@@ -27,6 +28,10 @@ class RegisterFormState extends State<RegisterForm> {
   TextEditingController monthController = TextEditingController();
   TextEditingController yearController = TextEditingController();
   bool clickDob = false;
+
+  bool invalidPasswordLengthLabel = false;
+  bool invalidConfirmPasswordLabel = false;
+  bool duplicateEmailLabel = false;
 
   @override
   Widget build(BuildContext contexct) {
@@ -90,18 +95,21 @@ class RegisterFormState extends State<RegisterForm> {
                                 isObscure: false,
                                 textInputType: "email",
                                 textEditingController: emailController,
+                                inputType: InputType.email,
                               ),
                               CustomTextField(
                                 topic: "ชื่อผู้ใช้งาน",
                                 isObscure: false,
                                 textInputType: "",
                                 textEditingController: nameController,
+                                inputType: InputType.username,
                               ),
                               CustomTextField(
                                 topic: "รหัสผ่าน",
                                 isObscure: true,
                                 textInputType: "",
                                 textEditingController: passwordController,
+                                inputType: InputType.passwrod,
                               ),
                               CustomTextField(
                                 topic: "ยืนยันรหัสผ่าน",
@@ -109,12 +117,14 @@ class RegisterFormState extends State<RegisterForm> {
                                 textInputType: "",
                                 textEditingController:
                                     confirmPasswordController,
+                                inputType: InputType.confirmPassword,
                               ),
                               CustomTextField(
                                 topic: "เบอร์โทรศัพท์",
                                 isObscure: false,
                                 textInputType: "number",
                                 textEditingController: phoneNumberController,
+                                inputType: InputType.phoneNumber,
                               ),
                               Row(
                                 mainAxisAlignment:
@@ -343,10 +353,11 @@ class RegisterFormState extends State<RegisterForm> {
         (dayController.text.isNotEmpty &&
             monthController.text.isNotEmpty &&
             yearController.text.isNotEmpty)) {
+      
       if (passwordController.text != confirmPasswordController.text) {
         return ScaffoldMessenger.of(
           context,
-        ).showSnackBar(SnackBar(content: Text("รหัสผ่านไม่ตรงกัน")));
+        ).showSnackBar(SnackBar(content: Text("รหัสผ่านไม่ตรงกัน, กรุณาลองอีกครั้ง")));
       }
 
       try {

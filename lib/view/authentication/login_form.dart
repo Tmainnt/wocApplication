@@ -1,6 +1,7 @@
 import "package:flutter/gestures.dart";
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
+import "package:woc/constant/app_enum.dart";
 import "package:woc/provider/user_provider.dart";
 import "package:woc/service/auth_service.dart";
 import "package:woc/theme/text_color.dart";
@@ -94,12 +95,14 @@ class LogFormState extends State<LoginForm> {
                                 isObscure: false,
                                 textInputType: "",
                                 textEditingController: emailController,
+                                inputType: InputType.email,
                               ),
                               CustomTextField(
                                 topic: "รหัสผ่าน",
                                 isObscure: true,
                                 textInputType: "",
                                 textEditingController: passwordController,
+                                inputType: InputType.passwrod,
                               ),
                             ],
                           ),

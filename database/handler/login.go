@@ -94,7 +94,7 @@ func LoginHandler(db *sql.DB) http.HandlerFunc {
 			[]byte(req.Req_Password))
 
 		if err != nil {
-			http.Error(w, "Wrong Password", 401)
+			http.Error(w, "Invalid Email or Password, Please try again", 401)
 			log.Println(err)
 			return
 		}

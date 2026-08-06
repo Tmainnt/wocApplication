@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:woc/constant/app_enum.dart';
 import 'package:woc/theme/widget_color.dart';
 
 class CustomTextField extends StatefulWidget {
@@ -6,6 +7,7 @@ class CustomTextField extends StatefulWidget {
   final bool isObscure;
   final String textInputType;
   final TextEditingController textEditingController;
+  final InputType inputType;
 
   const CustomTextField({
     super.key,
@@ -13,6 +15,7 @@ class CustomTextField extends StatefulWidget {
     required this.isObscure,
     required this.textInputType,
     required this.textEditingController,
+    required this.inputType,
   }) : _topic = topic;
 
   @override

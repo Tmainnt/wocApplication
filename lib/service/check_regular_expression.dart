@@ -4,10 +4,6 @@ class CheckRegularExpression {
     final regEx = RegExp("");
     return true;
   }
-  
-  bool checkUsername() {
-    return true;
-  }
 
   bool checkPasswrod(){
     return true;

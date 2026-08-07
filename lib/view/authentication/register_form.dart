@@ -373,6 +373,7 @@ class RegisterFormState extends State<RegisterForm> {
           phoneNumberController.text,
         );
         if (!mounted) return;
+        
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => LoginForm()),

@@ -38,8 +38,17 @@ func GetAllPost(db *sql.DB) http.HandlerFunc {
 		var post []Post
 		for row.Next() {
 			var p Post
-			row.Scan(&p.PostID, &p.UserID, &p.Content, &p.Image, &p.CreateTimestamp, &p.UpdateTimestamp, &p.PostVisibility, &p.PostStatus, &p.LikeCount, &p.CommentCount, &p.ReportCount)
+			err := row.Scan(&p.PostID, &p.UserID, &p.Content, &p.Image, &p.CreateTimestamp, &p.UpdateTimestamp, &p.PostVisibility, &p.PostStatus, &p.LikeCount, &p.CommentCount, &p.ReportCount)
+			if err != nil {
+				http.Error(w, "something went wrong while read data from Database", 500)
+				return
+			}
 			post = append(post, p)
+		}
+
+		if err := row.Err(); err != nil {
+			http.Error(w, "something went wrong with row in database", 500)
+			return
 		}
 		w.WriteHeader(http.StatusOK)
 		json.NewEncoder(w).Encode(post)

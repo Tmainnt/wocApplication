@@ -2,6 +2,7 @@ import "dart:convert";
 
 import "package:http/http.dart" as http;
 import "package:woc/model/user.dart";
+import "package:woc/service/check_regular_expression.dart";
 import "package:woc/service/token_service.dart";
 
 class AuthService {
@@ -78,4 +79,9 @@ class AuthService {
     await TokenService.saveToken(data["access_token"], data["refresh_token"]);
     return true;
   }
+
+  bool checkEmail(String email) {
+    return CheckRegularExpression().checkEmail(email);
+  }
+
 }

@@ -1,11 +1,11 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:woc/service/auth_service.dart';
 import 'package:woc/theme/text_color.dart';
 import 'package:woc/theme/widget_color.dart';
 import 'package:woc/view/authentication/login_form.dart';
 import 'package:woc/widget/auth/custom_textfield.dart';
 import 'package:woc/constant/app_enum.dart';
+import 'package:woc/controller/authentication/register_controller.dart';
 
 class RegisterForm extends StatefulWidget {
   const RegisterForm({super.key});
@@ -15,19 +15,10 @@ class RegisterForm extends StatefulWidget {
 }
 
 class RegisterFormState extends State<RegisterForm> {
+  final RegisterController registerController = RegisterController();
   bool isLoading = false;
   WidgetColor widgetColor = WidgetColor();
   TextColor textColor = TextColor();
-  String? selectedGender;
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController confirmPasswordController = TextEditingController();
-  TextEditingController nameController = TextEditingController();
-  TextEditingController phoneNumberController = TextEditingController();
-  TextEditingController dayController = TextEditingController();
-  TextEditingController monthController = TextEditingController();
-  TextEditingController yearController = TextEditingController();
-  bool clickDob = false;
 
   bool invalidPasswordLengthLabel = false;
   bool invalidConfirmPasswordLabel = false;
@@ -94,21 +85,21 @@ class RegisterFormState extends State<RegisterForm> {
                                 topic: "อีเมล",
                                 isObscure: false,
                                 textInputType: "email",
-                                textEditingController: emailController,
+                                textEditingController: registerController.emailController,
                                 inputType: InputType.email,
                               ),
                               CustomTextField(
                                 topic: "ชื่อผู้ใช้งาน",
                                 isObscure: false,
                                 textInputType: "",
-                                textEditingController: nameController,
+                                textEditingController: registerController.nameController,
                                 inputType: InputType.username,
                               ),
                               CustomTextField(
                                 topic: "รหัสผ่าน",
                                 isObscure: true,
                                 textInputType: "",
-                                textEditingController: passwordController,
+                                textEditingController: registerController.passwordController,
                                 inputType: InputType.passwrod,
                               ),
                               CustomTextField(
@@ -116,14 +107,14 @@ class RegisterFormState extends State<RegisterForm> {
                                 isObscure: true,
                                 textInputType: "",
                                 textEditingController:
-                                    confirmPasswordController,
+                                    registerController.confirmPasswordController,
                                 inputType: InputType.confirmPassword,
                               ),
                               CustomTextField(
                                 topic: "เบอร์โทรศัพท์",
                                 isObscure: false,
                                 textInputType: "number",
-                                textEditingController: phoneNumberController,
+                                textEditingController: registerController.phoneNumberController,
                                 inputType: InputType.phoneNumber,
                               ),
                               Row(
@@ -188,7 +179,7 @@ class RegisterFormState extends State<RegisterForm> {
                                               ),
                                               onSelected: (value) {
                                                 setState(() {
-                                                  selectedGender = value;
+                                                  registerController.selectedGender = value;
                                                 });
                                               },
                                               hintText: "เลือก",
@@ -228,9 +219,9 @@ class RegisterFormState extends State<RegisterForm> {
                                       GestureDetector(
                                         onTap: () {
                                           setState(() {
-                                            clickDob = !clickDob;
+                                            registerController.setClickDobStatus();
                                           });
-                                          birthDayData(context);
+                                          registerController.pickDateOfBirth(context);
                                         },
                                         child: Container(
                                           padding: EdgeInsets.only(
@@ -253,35 +244,36 @@ class RegisterFormState extends State<RegisterForm> {
                                               ),
                                             ],
                                           ),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Center(
-                                                child: Text(
-                                                  dayController.text.isNotEmpty
-                                                      ? "${dayController.text}/${monthController.text}/${yearController.text}"
-                                                      : "กดเพื่อกรอก",
-                                                  style: TextStyle(
-                                                    color: Colors.black54,
+                                          child: ListenableBuilder(
+                                            listenable: registerController, 
+                                            builder: (context, _) => Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Center(
+                                                  child: Text(
+                                                    registerController.dateOfBirth,
+                                                    style: TextStyle(
+                                                      color: Colors.black54,
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                              IconButton(
-                                                onPressed: () {
-                                                  setState(() {
-                                                    clickDob = !clickDob;
-                                                  });
-                                                  birthDayData(context);
-                                                },
-                                                icon: clickDob
-                                                    ? Icon(Icons.arrow_drop_up)
-                                                    : Icon(
-                                                        Icons.arrow_drop_down,
-                                                      ),
-                                              ),
-                                            ],
-                                          ),
+                                                IconButton(
+                                                  onPressed: () {
+                                                    setState(() {
+                                                      registerController.setClickDobStatus();
+                                                    });
+                                                    registerController.pickDateOfBirth(context);
+                                                  },
+                                                  icon: registerController.clickDob
+                                                      ? Icon(Icons.arrow_drop_up)
+                                                      : Icon(
+                                                          Icons.arrow_drop_down,
+                                                        ),
+                                                ),
+                                              ],
+                                            ),
+                                          ) 
                                         ),
                                       ),
                                     ],
@@ -297,7 +289,7 @@ class RegisterFormState extends State<RegisterForm> {
                     ElevatedButton(
                       onPressed: isLoading
                           ? null
-                          : () => registerButtonAction(),
+                          : () => registerController.registerButtonAction(context),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: widgetColor.elevatedButtonAuth(),
                         foregroundColor: Colors.white,
@@ -345,129 +337,7 @@ class RegisterFormState extends State<RegisterForm> {
     );
   }
 
-  dynamic registerButtonAction() async {
-    if (emailController.text.isNotEmpty &&
-        nameController.text.isNotEmpty &&
-        passwordController.text.isNotEmpty &&
-        selectedGender != null &&
-        (dayController.text.isNotEmpty &&
-            monthController.text.isNotEmpty &&
-            yearController.text.isNotEmpty)) {
-      
-      if (passwordController.text != confirmPasswordController.text) {
-        return ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text("รหัสผ่านไม่ตรงกัน, กรุณาลองอีกครั้ง")));
-      }
-
-      try {
-        await AuthService().registerResponseStatusCode(
-          emailController.text,
-          nameController.text,
-          passwordController.text,
-          selectedGender,
-          dayController.text,
-          monthController.text,
-          yearController.text,
-          confirmPasswordController.text,
-          phoneNumberController.text,
-        );
-        if (!mounted) return;
-        
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => LoginForm()),
-        );
-      } catch (e) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text("สมัครไม่สำเร็จ")));
-      }
-    } else {
-      return ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text("กรุณากรอกข้อมูลให้ครบ")));
-    }
-  }
-
-  Future<dynamic> birthDayData(BuildContext context) {
-    return showDialog(
-      context: context,
-      builder: (_) => AlertDialog(
-        content: SizedBox(
-          height: 100,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text("วัน"),
-                    TextField(
-                      decoration: InputDecoration(hintText: dayController.text),
-                      controller: dayController,
-                      keyboardType: TextInputType.number,
-                    ),
-                  ],
-                ),
-              ),
-
-              VerticalDivider(thickness: 1),
-
-              Expanded(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text("เดือน"),
-                    TextField(
-                      decoration: InputDecoration(
-                        hintText: monthController.text,
-                      ),
-                      controller: monthController,
-                      keyboardType: TextInputType.number,
-                    ),
-                  ],
-                ),
-              ),
-
-              VerticalDivider(thickness: 1),
-              Expanded(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text("ปี"),
-                    TextField(
-                      decoration: InputDecoration(
-                        hintText: yearController.text,
-                      ),
-                      controller: yearController,
-                      keyboardType: TextInputType.number,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-        actions: [
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: Text("ยกเลิก", style: TextStyle(color: Colors.red)),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              setState(() {
-                clickDob = !clickDob;
-              });
-              Navigator.pop(context);
-            },
-            child: Text("บันทึก"),
-          ),
-        ],
-      ),
-    );
+  void showDatePick() {
+    
   }
 }

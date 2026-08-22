@@ -1,0 +1,3 @@
+class HomePageExersice {
+	const HomePageExersice();
+}

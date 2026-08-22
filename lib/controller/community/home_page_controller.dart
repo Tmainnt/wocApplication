@@ -1,0 +1,3 @@
+class HomePageController {
+	const HomePageController();
+}

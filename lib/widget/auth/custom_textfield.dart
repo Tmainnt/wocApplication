@@ -8,6 +8,7 @@ class CustomTextField extends StatefulWidget {
   final String textInputType;
   final TextEditingController textEditingController;
   final InputType inputType;
+  final Color borderColorController;
 
   const CustomTextField({
     super.key,
@@ -16,6 +17,7 @@ class CustomTextField extends StatefulWidget {
     required this.textInputType,
     required this.textEditingController,
     required this.inputType,
+    required this.borderColorController,
   }) : _topic = topic;
 
   @override

@@ -14,10 +14,15 @@ class RegisterController extends ChangeNotifier {
   TextEditingController phoneNumberController = TextEditingController();
   DateTime? selectedDate;
   bool clickDob = false;
+  Color emailBorderColorController = Colors.black;
+  Color usrBorderColorController = Colors.black;
+  Color pwdBorderColorController = Colors.black;
+  Color conPwdBoderColorController = Colors.black;
+  Color phoneBorderColorController = Colors.black;
+  Color genderBorderColorController = Colors.black;
+  Color dobBorderColorController = Colors.black;
+  
 
-  void registerButton() {
-
-  }
 
   dynamic registerButtonAction(BuildContext context) async{
     if (emailController.text.isNotEmpty &&

@@ -40,9 +40,8 @@ class AuthService {
     final url = Uri.parse(
       "https://kindling-magnifier-late.ngrok-free.dev/register",
     );
-
     final String dob = "$day/$month/$year";
-
+    
     final response = await http.post(
       url,
       headers: {"content-type": "application/json"},

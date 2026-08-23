@@ -118,8 +118,8 @@ class RegisterFormState extends State<RegisterForm> {
                                 inputType: InputType.phoneNumber,
                               ),
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                /*mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,*/
                                 children: [
                                   Column(
                                     crossAxisAlignment:
@@ -204,8 +204,10 @@ class RegisterFormState extends State<RegisterForm> {
                                       ),
                                     ],
                                   ),
-
-                                  Column(
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  Column( 
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [

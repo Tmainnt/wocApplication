@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"time"
 	auth "woc/database/auth"
+	service "woc/database/service"
 
 	"golang.org/x/crypto/bcrypt"
 )
@@ -26,7 +27,7 @@ type User struct {
 	FName           string    `json:"first_name"`
 	LName           string    `json:"last_name"`
 	Gender          string    `json:"user_gender"`
-	DOF             time.Time `json:"date_of_birth"`
+	DOF             string    `json:"date_of_birth"`
 	PhoneNB         string    `json:"user_phone"`
 	Role            string    `json:"user_role"`
 	ProfileImage    string    `json:"user_user_profile_image"`
@@ -43,11 +44,17 @@ func HashToken(token string) string {
 
 func LoginHandler(db *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+
+		if service.HttpMethodPost(r) {
+			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+			return
+		}
+
 		var req loginRequest
 		var user User
 		err := json.NewDecoder(r.Body).Decode(&req)
 		if err != nil {
-			http.Error(w, "Invalid json", 400)
+			http.Error(w, "Invalid json", http.StatusBadGateway)
 			log.Println(err)
 			return
 		}

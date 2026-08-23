@@ -87,6 +87,7 @@ class RegisterFormState extends State<RegisterForm> {
                                 textInputType: "email",
                                 textEditingController: registerController.emailController,
                                 inputType: InputType.email,
+                                borderColorController: registerController.emailBorderColorController,
                               ),
                               CustomTextField(
                                 topic: "ชื่อผู้ใช้งาน",
@@ -94,6 +95,7 @@ class RegisterFormState extends State<RegisterForm> {
                                 textInputType: "",
                                 textEditingController: registerController.nameController,
                                 inputType: InputType.username,
+                                borderColorController: registerController.usrBorderColorController,
                               ),
                               CustomTextField(
                                 topic: "รหัสผ่าน",
@@ -101,6 +103,7 @@ class RegisterFormState extends State<RegisterForm> {
                                 textInputType: "",
                                 textEditingController: registerController.passwordController,
                                 inputType: InputType.passwrod,
+                                borderColorController: registerController.pwdBorderColorController,
                               ),
                               CustomTextField(
                                 topic: "ยืนยันรหัสผ่าน",
@@ -109,6 +112,7 @@ class RegisterFormState extends State<RegisterForm> {
                                 textEditingController:
                                     registerController.confirmPasswordController,
                                 inputType: InputType.confirmPassword,
+                                borderColorController: registerController.conPwdBoderColorController,
                               ),
                               CustomTextField(
                                 topic: "เบอร์โทรศัพท์",
@@ -116,6 +120,7 @@ class RegisterFormState extends State<RegisterForm> {
                                 textInputType: "number",
                                 textEditingController: registerController.phoneNumberController,
                                 inputType: InputType.phoneNumber,
+                                borderColorController: registerController.phoneBorderColorController,
                               ),
                               Row(
                                 /*mainAxisAlignment:
@@ -147,6 +152,9 @@ class RegisterFormState extends State<RegisterForm> {
                                                   blurRadius: 4,
                                                 ),
                                               ],
+                                              border: Border.all(
+                                                color: registerController.genderBorderColorController
+                                              ),
                                             ),
                                             child: DropdownMenu(
                                               inputDecorationTheme:
@@ -245,6 +253,9 @@ class RegisterFormState extends State<RegisterForm> {
                                                 blurRadius: 4,
                                               ),
                                             ],
+                                            border: Border.all(
+                                              color: registerController.dobBorderColorController
+                                            )
                                           ),
                                           child: ListenableBuilder(
                                             listenable: registerController, 

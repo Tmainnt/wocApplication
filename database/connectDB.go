@@ -14,9 +14,10 @@ import (
 
 	"net/http"
 
+	"context"
+
 	"github.com/cloudinary/cloudinary-go/v2"
 	"github.com/joho/godotenv"
-	"context"
 
 	_ "github.com/lib/pq"
 )
@@ -42,35 +43,46 @@ func main() {
 	}
 	defer db.Close()
 
+	db.SetMaxIdleConns(10)
+	db.SetMaxOpenConns(50)
+	db.SetConnMaxIdleTime(5 * time.Minute)
+	db.SetConnMaxLifetime(30 * time.Minute)
+
 	err = db.Ping()
 	if err != nil {
-		print("Error line 52.")
 		panic(err)
 	}
 
 	fmt.Println("Connected to PostgresSQL!")
 
-	http.HandleFunc("/register", handler.RegisterHandler(db))
-	http.HandleFunc("/login", handler.LoginHandler(db))
-	http.HandleFunc("/readUserPost", auth.AuthMiddelware(pdb.GetMyPost(db)))
-	http.HandleFunc("/writeBack", auth.AuthMiddelware(pdb.WriteBack(db)))
-	http.HandleFunc("/readAllPost", pdb.GetAllPost(db))
-	http.HandleFunc("/logout", handler.LogoutHandler(db))
-	http.HandleFunc("/refresh", handler.RefreshHandler(db))
+	mux := http.NewServeMux()
+	mux.HandleFunc("/register", handler.RegisterHandler(db))
+	mux.HandleFunc("/login", handler.LoginHandler(db))
+	mux.HandleFunc("/readUserPost", auth.AuthMiddelware(pdb.GetMyPost(db)))
+	mux.HandleFunc("/writeBack", auth.AuthMiddelware(pdb.WriteBack(db)))
+	mux.HandleFunc("/readAllPost", pdb.GetAllPost(db))
+	mux.HandleFunc("/logout", handler.LogoutHandler(db))
+	mux.HandleFunc("/refresh", handler.RefreshHandler(db))
+
+	srv := &http.Server{
+		Addr:         ":8080",
+		Handler:      mux,
+		ReadTimeout:  10 * time.Second,
+		WriteTimeout: 10 * time.Second,
+		IdleTimeout:  60 * time.Second,
+	}
 
 	http.ListenAndServe(":8080", nil)
-
-	srv := &http.Server{Addr: ":8080"}
 
 	go func() {
 		fmt.Println("Server running on :8080")
 		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			log.Fatal(err)
+			log.Fatalf("Server error: %v", err)
 		}
 	}()
 
 	quit := make(chan os.Signal, 1)
-	signal.Notify(quit, syscall.SIGABRT, syscall.SIGTERM)
+	signal.Notify(quit, os.Interrupt, syscall.SIGABRT, syscall.SIGTERM)
 	<-quit
 
 	fmt.Println("Shutting down...")

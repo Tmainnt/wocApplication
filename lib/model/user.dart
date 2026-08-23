@@ -3,7 +3,7 @@ class User {
   String _email;
   String _name;
   String _gender;
-  DateTime _dob;
+  String _dob;
   String _phone;
   String _role;
   String _profileImage;
@@ -17,7 +17,7 @@ class User {
     required String email,
     required String name,
     required String gender,
-    required DateTime dob,
+    required String dob,
     required String phone,
     required String role,
     required String profileImage,
@@ -43,7 +43,7 @@ class User {
       token: tokenStr,
       email: json["user_email"],
       name: json["user_name"],
-      dob: DateTime.parse(json["date_of_birth"]),
+      dob: json["date_of_birth"],
       phone: json["phone_number"] ?? "",
       gender: json["user_gender"],
       role: json["user_role"],
@@ -59,7 +59,7 @@ class User {
   String get email => _email;
   String get name => _name;
   String get gender => _gender;
-  DateTime get dob => _dob;
+  String get dob => _dob;
   String get phone => _phone;
   String get role => _role;
   String get profileImage => _profileImage;

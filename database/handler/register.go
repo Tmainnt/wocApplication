@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	service "woc/database/service"
 
 	"golang.org/x/crypto/bcrypt"
 )
@@ -20,7 +21,7 @@ type RegisterRequest struct {
 
 func RegisterHandler(db *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		if r.Method != http.MethodPost {
+		if service.HttpMethodPost(r) {
 			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 			return
 		}

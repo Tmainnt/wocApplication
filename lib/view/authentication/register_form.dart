@@ -76,7 +76,9 @@ class RegisterFormState extends State<RegisterForm> {
                     ),
                     Container(
                       padding: EdgeInsets.only(top: 20),
-                      child: Column(
+                      child: ListenableBuilder(
+                        listenable: registerController,
+                        builder: (context, _) => Column(
                         children: [
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -87,7 +89,7 @@ class RegisterFormState extends State<RegisterForm> {
                                 textInputType: "email",
                                 textEditingController: registerController.emailController,
                                 inputType: InputType.email,
-                                borderColorController: registerController.emailBorderColorController,
+                                borderColorController: registerController.emailBorderColorController ? Colors.black : Colors.red,
                               ),
                               CustomTextField(
                                 topic: "ชื่อผู้ใช้งาน",
@@ -95,7 +97,7 @@ class RegisterFormState extends State<RegisterForm> {
                                 textInputType: "",
                                 textEditingController: registerController.nameController,
                                 inputType: InputType.username,
-                                borderColorController: registerController.usrBorderColorController,
+                                borderColorController: registerController.nameBorderColorController ? Colors.black : Colors.red,
                               ),
                               CustomTextField(
                                 topic: "รหัสผ่าน",
@@ -103,7 +105,7 @@ class RegisterFormState extends State<RegisterForm> {
                                 textInputType: "",
                                 textEditingController: registerController.passwordController,
                                 inputType: InputType.passwrod,
-                                borderColorController: registerController.pwdBorderColorController,
+                                borderColorController: registerController.pwdBorderColorController ? Colors.black : Colors.red,
                               ),
                               CustomTextField(
                                 topic: "ยืนยันรหัสผ่าน",
@@ -112,7 +114,7 @@ class RegisterFormState extends State<RegisterForm> {
                                 textEditingController:
                                     registerController.confirmPasswordController,
                                 inputType: InputType.confirmPassword,
-                                borderColorController: registerController.conPwdBoderColorController,
+                                borderColorController: registerController.conPwdBoderColorController ? Colors.black : Colors.red,
                               ),
                               CustomTextField(
                                 topic: "เบอร์โทรศัพท์",
@@ -120,7 +122,7 @@ class RegisterFormState extends State<RegisterForm> {
                                 textInputType: "number",
                                 textEditingController: registerController.phoneNumberController,
                                 inputType: InputType.phoneNumber,
-                                borderColorController: registerController.phoneBorderColorController,
+                                borderColorController: registerController.phoneBorderColorController ? Colors.black : Colors.red,
                               ),
                               Row(
                                 /*mainAxisAlignment:
@@ -153,7 +155,7 @@ class RegisterFormState extends State<RegisterForm> {
                                                 ),
                                               ],
                                               border: Border.all(
-                                                color: registerController.genderBorderColorController
+                                                color: registerController.genderBorderColorController ? Colors.black : Colors.red
                                               ),
                                             ),
                                             child: DropdownMenu(
@@ -254,7 +256,7 @@ class RegisterFormState extends State<RegisterForm> {
                                               ),
                                             ],
                                             border: Border.all(
-                                              color: registerController.dobBorderColorController
+                                              color: registerController.dobBorderColorController ? Colors.black : Colors.red
                                             )
                                           ),
                                           child: ListenableBuilder(
@@ -297,17 +299,33 @@ class RegisterFormState extends State<RegisterForm> {
                           ),
                         ],
                       ),
+                    ) 
                     ),
                     SizedBox(height: 15),
                     ElevatedButton(
                       onPressed: isLoading
                           ? null
-                          : () => registerController.registerButtonAction(context),
+                          : () async {
+                              final bool isSuccess = await registerController.registerButtonAction();
+
+                              if (!context.mounted) return;
+
+                              if (isSuccess) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => LoginForm()),
+                                );
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text("สมัครไม่สำเร็จ")),
+                                );
+                              }
+                            },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: widgetColor.elevatedButtonAuth(),
                         foregroundColor: Colors.white,
                       ),
-                      child: Text(
+                      child: const Text(
                         "สมัครสมาชิก",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,

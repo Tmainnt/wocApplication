@@ -1,5 +1,6 @@
 import "dart:convert";
 
+import "package:google_sign_in/google_sign_in.dart";
 import "package:http/http.dart" as http;
 import "package:woc/model/user.dart";
 import "package:woc/service/check_regular_expression.dart";
@@ -81,6 +82,11 @@ class AuthService {
 
   bool checkEmail(String email) {
     return CheckRegularExpression().checkEmail(email);
+  }
+
+  void signInGoogle() {
+      final googleSignIn = GoogleSignIn.instance;
+      // soon naja
   }
 
 }

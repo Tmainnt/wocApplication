@@ -14,30 +14,18 @@ class RegisterController extends ChangeNotifier {
   TextEditingController phoneNumberController = TextEditingController();
   DateTime? selectedDate;
   bool clickDob = false;
-  Color emailBorderColorController = Colors.black;
-  Color usrBorderColorController = Colors.black;
-  Color pwdBorderColorController = Colors.black;
-  Color conPwdBoderColorController = Colors.black;
-  Color phoneBorderColorController = Colors.black;
-  Color genderBorderColorController = Colors.black;
-  Color dobBorderColorController = Colors.black;
+  bool emailBorderColorController = true;
+  bool nameBorderColorController = true;
+  bool pwdBorderColorController = true;
+  bool conPwdBoderColorController = true;
+  bool phoneBorderColorController = true;
+  bool genderBorderColorController = true;
+  bool dobBorderColorController = true;
   
 
 
-  dynamic registerButtonAction(BuildContext context) async{
-    if (emailController.text.isNotEmpty &&
-        nameController.text.isNotEmpty &&
-        passwordController.text.isNotEmpty &&
-        selectedGender != null &&
-        selectedDate != null) {
-      
-      if (passwordController.text != confirmPasswordController.text) {
-        return ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text("รหัสผ่านไม่ตรงกัน, กรุณาลองอีกครั้ง")
-          )
-        );
-      }
+  Future<bool> registerButtonAction() async{
+    if (validateInput()) {
 
       try {
         await AuthService().registerResponseStatusCode(
@@ -51,21 +39,13 @@ class RegisterController extends ChangeNotifier {
           confirmPasswordController.text,
           phoneNumberController.text,
         );
-        
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => LoginForm()),
-        );
+        return true;
       } catch (e) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text("สมัครไม่สำเร็จ")));
+        return false;
       }
-    } else {
-      return ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text("กรุณากรอกข้อมูลให้ครบ")));
     }
+    notifyListeners();
+    return false;
   }
 
   void pickDateOfBirth(BuildContext context) async {
@@ -95,4 +75,43 @@ class RegisterController extends ChangeNotifier {
   String numberToStringFormat(int number){
     return number.toString().padLeft(2, '0');
   }
+
+  bool validateInput() {
+    bool status = true;
+    if (emailController.text.isEmpty) {
+      status = false;
+      emailBorderColorController = false;
+    }
+    if (nameController.text.isEmpty){
+      status = false;
+      nameBorderColorController = false;
+      
+    }
+    if (passwordController.text.isEmpty){
+      status = false;
+      pwdBorderColorController = false;
+    }
+    if (confirmPasswordController.text.isEmpty ){
+      status = false;
+      conPwdBoderColorController = false;
+      if (passwordController.text != confirmPasswordController.text && passwordController != false) pwdBorderColorController = false; 
+    }
+    if (phoneNumberController.text.isEmpty){
+      status = false;
+      phoneBorderColorController = false;
+
+    }
+    if (selectedGender == null || selectedGender!.isEmpty){
+      status = false;
+      genderBorderColorController = false;
+    }
+
+    if (selectedDate == null) {
+      status = false;
+      dobBorderColorController = false;
+    }
+
+    return status;
+  }
+
 }

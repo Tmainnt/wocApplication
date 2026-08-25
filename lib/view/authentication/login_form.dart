@@ -99,7 +99,8 @@ class LogFormState extends State<LoginForm> {
                                   textInputType: "",
                                   textEditingController: loginController.emailController,
                                   inputType: InputType.email,
-                                  borderColorController: (loginController.validEmail) ? Colors.black : Colors.red
+                                  borderColorController: (loginController.validEmail) ? Colors.black : Colors.red,
+                                  onChanged: (_) => loginController.validEmail,
                                 ),
                                 CustomTextField(
                                   topic: "รหัสผ่าน",
@@ -107,7 +108,8 @@ class LogFormState extends State<LoginForm> {
                                   textInputType: "",
                                   textEditingController: loginController.passwordController,
                                   inputType: InputType.passwrod,
-                                  borderColorController: (loginController.validPassword) ? Colors.black : Colors.red
+                                  borderColorController: (loginController.validPassword) ? Colors.black : Colors.red,
+                                  onChanged: (_) => loginController.validPassword,
                                 ),
                               ],
                             ),

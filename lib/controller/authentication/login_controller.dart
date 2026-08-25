@@ -11,6 +11,13 @@ class LoginController extends ChangeNotifier {
   final UserProvider _userProvider;
   LoginController(this._userProvider);
 
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
   Future<bool> loginButtonAction() async {
     if (validInput()) {
       try {
@@ -30,16 +37,23 @@ class LoginController extends ChangeNotifier {
   }
 
   bool validInput() {
-    if (emailController.text.isEmpty) {
-      validEmail = false;
-    }
-
-    if (passwordController.text.isEmpty) {
-      validPassword = false;
-    }
-    return true;
+    validEmail = emailController.text.isNotEmpty;
+    validPassword = passwordController.text.isNotEmpty;
+    return validEmail && validEmail;
   }
 
+  void clearEmailError() {
+    if (!validEmail){
+      validEmail = true;
+      notifyListeners();
+    }
+  }
 
+  void clearPasswordError() {
+    if (!validPassword){
+      validPassword = true;
+      notifyListeners();
+    }
+  }
   
 }

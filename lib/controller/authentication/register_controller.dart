@@ -22,6 +22,16 @@ class RegisterController extends ChangeNotifier {
   bool dobBorderColorController = true;
   
 
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+    nameController.dispose();
+    phoneNumberController.dispose();
+    selectedDate = null;
+    super.dispose();
+  }
 
   Future<bool> registerButtonAction() async{
     if (validateInput()) {
@@ -112,5 +122,7 @@ class RegisterController extends ChangeNotifier {
 
     return status;
   }
+
+
 
 }

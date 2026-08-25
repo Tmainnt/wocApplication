@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:woc/service/auth_service.dart';
-import 'package:woc/view/authentication/login_form.dart';
 
 class RegisterController extends ChangeNotifier {
   

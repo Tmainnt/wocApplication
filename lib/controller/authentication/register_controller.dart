@@ -140,7 +140,7 @@ class RegisterController extends ChangeNotifier {
 
   void clearErrorPassword() {
     if (!validPassword) {
-      validEmail = true;
+      validPassword = true;
       notifyListeners();
     }
   }

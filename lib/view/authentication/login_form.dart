@@ -2,8 +2,8 @@ import "package:flutter/gestures.dart";
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
 import "package:woc/constant/app_enum.dart";
+import "package:woc/controller/authentication/login_controller.dart";
 import "package:woc/provider/user_provider.dart";
-import "package:woc/service/auth_service.dart";
 import "package:woc/theme/text_color.dart";
 import "package:woc/theme/widget_color.dart";
 import "package:woc/view/authentication/register_form.dart";
@@ -21,11 +21,10 @@ class LogFormState extends State<LoginForm> {
   bool isObscure = false;
   WidgetColor widgetColor = WidgetColor();
   TextColor textColor = TextColor();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext contexct) {
+    final loginController = LoginController(context.read<UserProvider>());
     return Scaffold(
       body: Stack(
         children: [
@@ -83,36 +82,43 @@ class LogFormState extends State<LoginForm> {
                       "ยินดีต้อนรับสู่แอปสุขภาพและการออกกำลังกาย",
                       style: TextStyle(fontSize: 15),
                     ),
+
                     Container(
                       padding: EdgeInsets.only(top: 20),
-                      child: Column(
-                        children: [
+                      child: ListenableBuilder(
+                        listenable: loginController, 
+                        builder: (context, _) => 
                           Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              CustomTextField(
-                                topic: "อีเมล",
-                                isObscure: false,
-                                textInputType: "",
-                                textEditingController: emailController,
-                                inputType: InputType.email,
-                              ),
-                              CustomTextField(
-                                topic: "รหัสผ่าน",
-                                isObscure: true,
-                                textInputType: "",
-                                textEditingController: passwordController,
-                                inputType: InputType.passwrod,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                CustomTextField(
+                                  topic: "อีเมล",
+                                  isObscure: false,
+                                  textInputType: "",
+                                  textEditingController: loginController.emailController,
+                                  inputType: InputType.email,
+                                  borderColorController: (loginController.validEmail) ? Colors.black : Colors.red
+                                ),
+                                CustomTextField(
+                                  topic: "รหัสผ่าน",
+                                  isObscure: true,
+                                  textInputType: "",
+                                  textEditingController: loginController.passwordController,
+                                  inputType: InputType.passwrod,
+                                  borderColorController: (loginController.validPassword) ? Colors.black : Colors.red
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ) 
                     ),
                     SizedBox(height: 10),
                     ElevatedButton(
-                      onPressed: () {
-                        loginButtonAction();
+                      onPressed: () async {
+                        await (loginController.loginButtonAction()) ? Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()),) : ScaffoldMessenger.of(context,).showSnackBar(SnackBar(content: Text("อีเมลหรือรหัสผ่านไม่ถูกต้อง")));
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: widgetColor.elevatedButtonAuth(),
@@ -163,26 +169,6 @@ class LogFormState extends State<LoginForm> {
         ],
       ),
     );
-  }
-
-  Future<dynamic> loginButtonAction() async {
-    if (emailController.text.isNotEmpty && passwordController.text.isNotEmpty) {
-      try {
-        final userData = await AuthService().loginResponseStatusCode(
-          emailController.text,
-          passwordController.text,
-        );
-        Provider.of<UserProvider>(context, listen: false).setUser(userData);
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => HomePage()),
-        );
-      } catch (e) {
-        return ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text("อีเมลหรือรหัสผ่านไม่ถูกต้อง")));
-      }
-    }
   }
 
   // ตอนนี้ยังเป็นแค่ปุ่มให้กด ยังไม่มี action เพราะทำระบบ login ด้วย google ไม่เป็น เพราะไม่ได้ใช้ firebase

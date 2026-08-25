@@ -103,7 +103,7 @@ class RegisterController extends ChangeNotifier {
     if (confirmPasswordController.text.isEmpty ){
       status = false;
       validConfirmPassword = false;
-      if (passwordController.text != confirmPasswordController.text && passwordController != false) pwdBorderColorController = false; 
+      if (passwordController.text != confirmPasswordController.text && validPassword != false) validPassword = false; 
     }
     if (phoneNumberController.text.isEmpty){
       status = false;

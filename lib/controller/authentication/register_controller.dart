@@ -13,13 +13,13 @@ class RegisterController extends ChangeNotifier {
   TextEditingController phoneNumberController = TextEditingController();
   DateTime? selectedDate;
   bool clickDob = false;
-  bool emailBorderColorController = true;
-  bool nameBorderColorController = true;
-  bool pwdBorderColorController = true;
-  bool conPwdBoderColorController = true;
-  bool phoneBorderColorController = true;
-  bool genderBorderColorController = true;
-  bool dobBorderColorController = true;
+  bool validEmail = true;
+  bool validName = true;
+  bool validPassword = true;
+  bool validConfirmPassword = true;
+  bool validPhoneNumber = true;
+  bool validGender = true;
+  bool validDob = true;
   
 
   @override
@@ -89,40 +89,88 @@ class RegisterController extends ChangeNotifier {
     bool status = true;
     if (emailController.text.isEmpty) {
       status = false;
-      emailBorderColorController = false;
+      validEmail = false;
     }
     if (nameController.text.isEmpty){
       status = false;
-      nameBorderColorController = false;
+      validName = false;
       
     }
     if (passwordController.text.isEmpty){
       status = false;
-      pwdBorderColorController = false;
+      validPassword = false;
     }
     if (confirmPasswordController.text.isEmpty ){
       status = false;
-      conPwdBoderColorController = false;
+      validConfirmPassword = false;
       if (passwordController.text != confirmPasswordController.text && passwordController != false) pwdBorderColorController = false; 
     }
     if (phoneNumberController.text.isEmpty){
       status = false;
-      phoneBorderColorController = false;
+      validPhoneNumber = false;
 
     }
     if (selectedGender == null || selectedGender!.isEmpty){
       status = false;
-      genderBorderColorController = false;
+      validGender = false;
     }
 
     if (selectedDate == null) {
       status = false;
-      dobBorderColorController = false;
+      validDob = false;
     }
 
     return status;
   }
 
 
+  void clearErrorEmail() {
+    if (!validEmail) {
+      validEmail = true;
+      notifyListeners();
+    }
+  }
+
+  void clearErrorName() {
+    if (!validName) {
+      validName = true;
+      notifyListeners();
+    }
+  }
+
+  void clearErrorPassword() {
+    if (!validPassword) {
+      validEmail = true;
+      notifyListeners();
+    }
+  }
+
+  void clearErrorConfirmPassword() {
+    if (!validConfirmPassword) {
+      validConfirmPassword = true;
+      notifyListeners();
+    }
+  }
+
+  void clearErrorPhoneNumber() {
+    if (!validPhoneNumber) {
+      validPhoneNumber = true;
+      notifyListeners();
+    }
+  }
+
+  void clearErrorGender() {
+    if (!validGender) {
+      validGender = true;
+      notifyListeners();
+    }
+  }
+
+  void clearErrorDob() {
+    if (!validDob) {
+      validDob = true;
+      notifyListeners();
+    }
+  }
 
 }

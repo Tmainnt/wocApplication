@@ -42,7 +42,7 @@ class CustomTextFieldState extends State<CustomTextField> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(widget._topic, style: TextStyle(fontWeight: FontWeight.bold)),
+        Text(widget.topic, style: TextStyle(fontWeight: FontWeight.bold)),
         SizedBox(height: 8),
         Container(
           padding: EdgeInsets.only(left: 7, right: 7),
@@ -56,6 +56,9 @@ class CustomTextFieldState extends State<CustomTextField> {
                 blurRadius: 4,
               ),
             ],
+            border: Border.all(
+              color: widget.borderColorController,  
+            )
           ),
           child: TextField(
             obscureText: isObscure,
@@ -63,8 +66,8 @@ class CustomTextFieldState extends State<CustomTextField> {
               border: InputBorder.none,
               suffixIcon: widget.textEditingController.text.isEmpty
                   ? null
-                  : widget._topic == "รหัสผ่าน" ||
-                        widget._topic == "ยืนยันรหัสผ่าน"
+                  : widget.topic == "รหัสผ่าน" ||
+                        widget.topic == "ยืนยันรหัสผ่าน"
                   ? IconButton(
                       onPressed: () {
                         setState(() {
@@ -78,7 +81,7 @@ class CustomTextFieldState extends State<CustomTextField> {
                   : null,
             ),
             controller: widget.textEditingController,
-            onChanged: (value) => setState(() {}),
+            onChanged: widget.onChanged,
             keyboardType: widget.textInputType == "email"
                 ? TextInputType.emailAddress
                 : widget.textInputType == "number"

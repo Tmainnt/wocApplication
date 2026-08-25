@@ -89,7 +89,7 @@ class RegisterFormState extends State<RegisterForm> {
                                 textInputType: "email",
                                 textEditingController: registerController.emailController,
                                 inputType: InputType.email,
-                                borderColorController: registerController.validEmail ? Colors.black : Colors.red,
+                                borderColorController: registerController.validEmail ? Colors.transparent : Colors.red,
                                 onChanged: (_) => registerController.clearErrorEmail(),
                               ),
                               CustomTextField(
@@ -98,7 +98,7 @@ class RegisterFormState extends State<RegisterForm> {
                                 textInputType: "",
                                 textEditingController: registerController.nameController,
                                 inputType: InputType.username,
-                                borderColorController: registerController.validName ? Colors.black : Colors.red,
+                                borderColorController: registerController.validName ? Colors.transparent : Colors.red,
                                 onChanged: (_) => registerController.clearErrorName(),
                               ),
                               CustomTextField(
@@ -107,7 +107,7 @@ class RegisterFormState extends State<RegisterForm> {
                                 textInputType: "",
                                 textEditingController: registerController.passwordController,
                                 inputType: InputType.passwrod,
-                                borderColorController: registerController.validPassword ? Colors.black : Colors.red,
+                                borderColorController: registerController.validPassword ? Colors.transparent : Colors.red,
                                 onChanged: (_) => registerController.clearErrorPassword(),
                               ),
                               CustomTextField(
@@ -117,7 +117,7 @@ class RegisterFormState extends State<RegisterForm> {
                                 textEditingController:
                                     registerController.confirmPasswordController,
                                 inputType: InputType.confirmPassword,
-                                borderColorController: registerController.validConfirmPassword ? Colors.black : Colors.red,
+                                borderColorController: registerController.validConfirmPassword ? Colors.transparent : Colors.red,
                                 onChanged: (_) => registerController.clearErrorConfirmPassword(),
                               ),
                               CustomTextField(
@@ -126,7 +126,7 @@ class RegisterFormState extends State<RegisterForm> {
                                 textInputType: "number",
                                 textEditingController: registerController.phoneNumberController,
                                 inputType: InputType.phoneNumber,
-                                borderColorController: registerController.validPhoneNumber ? Colors.black : Colors.red,
+                                borderColorController: registerController.validPhoneNumber ? Colors.transparent : Colors.red,
                                 onChanged: (_) => registerController.clearErrorPhoneNumber(),
                               ),
                               Row(
@@ -160,7 +160,7 @@ class RegisterFormState extends State<RegisterForm> {
                                                 ),
                                               ],
                                               border: Border.all(
-                                                color: registerController.validGender ? Colors.black : Colors.red
+                                                color: registerController.validGender ? Colors.transparent : Colors.red
                                               ),
                                             ),
                                             child: DropdownMenu(
@@ -261,7 +261,7 @@ class RegisterFormState extends State<RegisterForm> {
                                               ),
                                             ],
                                             border: Border.all(
-                                              color: registerController.validDob ? Colors.black : Colors.red
+                                              color: registerController.validDob ? Colors.transparent : Colors.red
                                             )
                                           ),
                                           child: ListenableBuilder(

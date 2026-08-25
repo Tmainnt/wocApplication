@@ -3,22 +3,24 @@ import 'package:woc/constant/app_enum.dart';
 import 'package:woc/theme/widget_color.dart';
 
 class CustomTextField extends StatefulWidget {
-  final String _topic;
+  final String topic;
   final bool isObscure;
   final String textInputType;
   final TextEditingController textEditingController;
   final InputType inputType;
   final Color borderColorController;
+  final ValueChanged<String>? onChanged;
 
   const CustomTextField({
     super.key,
-    required String topic,
+    required this.topic,
     required this.isObscure,
     required this.textInputType,
     required this.textEditingController,
     required this.inputType,
     required this.borderColorController,
-  }) : _topic = topic;
+    required this.onChanged
+  });
 
   @override
   State<CustomTextField> createState() => CustomTextFieldState();

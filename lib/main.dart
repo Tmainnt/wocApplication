@@ -4,7 +4,7 @@ import 'package:woc/provider/user_provider.dart';
 import 'package:woc/main_wrapper.dart';
 
 void main() {
-  runApp(ChangeNotifierProvider(create: (_) => UserProvider(), child: MyApp()));
+  runApp(ChangeNotifierProvider(create: (_) => UserProvider(), child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {

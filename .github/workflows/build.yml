@@ -14,7 +14,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Build
-        run: <mark><commands_to_build_your_project></mark>
+        run: <commands_to_build_your_project>
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@7006c4492b2e0ee0f816d36501671557c97f5995
         env:

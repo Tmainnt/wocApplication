@@ -19,4 +19,10 @@ class WidgetColor {
   ];
 
   Color iconWithBlackBackground() => Color.fromARGB(255, 158, 158, 158);
+
+  List<Color> applicationMainTheme() => [
+    Color.fromARGB(255, 5, 30, 141),
+    Color.fromARGB(255, 105, 58, 233),
+    Color.fromARGB(255, 105, 3, 95),
+  ];
 }

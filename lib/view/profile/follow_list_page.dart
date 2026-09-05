@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:woc/model/user.dart';
 import 'package:woc/view/profile/profile_page.dart';
 import 'package:woc/theme/widget_color.dart';
 import 'package:woc/widget/community/report_user_dialog.dart';
+import 'package:woc/provider/user_provider.dart';
 
 class FollowListPage extends StatefulWidget {
   final String profileOwnerUID;
@@ -27,6 +29,7 @@ class _FollowListPageState extends State<FollowListPage> {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<UserProvider>(context, ).queryUser;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(

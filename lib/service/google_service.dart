@@ -10,14 +10,19 @@ class GoogleService {
     scopes: ['email', 'profile'],
   );
 
-  Future<void> signInWithGoogle() async {
-    final GoogleSignInAccount? account = await _googleSignIn.signIn();
-    if (account == null) {
-      print("user cancelled login.");
-      return;
-    }
+  Future<String?> signInWithGoogle() async {
+    try {
+      final GoogleSignInAccount? account = await _googleSignIn.signIn();
+      if (account == null) {
+        print("user cancelled login.");
+        return null;
+      }
 
-    final GoogleSignInAuthentication auth = await account.authentication;
-    final String? idToken = auth.idToken;
+      final GoogleSignInAuthentication auth = await account.authentication;
+      return auth.idToken;
+    } catch (error) {
+      print("Google sign in error: $error");
+      return null;
+    }
   }
 }

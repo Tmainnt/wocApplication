@@ -9,7 +9,7 @@ import 'package:woc/view/authentication/login_form.dart';
 import 'package:woc/view/community/chat_page.dart';
 import 'package:woc/view/home_page.dart';
 import 'package:woc/service/cache_service.dart';
-import 'package:woc/view/profile_page.dart';
+import 'package:woc/view/profile/profile_page.dart';
 import 'package:woc/widget/navbar/bottom_navbar.dart';
 import 'package:woc/widget/appbar/top_appbar.dart';
 

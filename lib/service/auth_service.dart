@@ -84,6 +84,26 @@ class AuthService {
     return CheckRegularExpression().checkEmail(email);
   }
 
+  Future<User> loginWithGoogle(String idToken) async {
+    final url = Uri.parse(
+      "https://kindling-magnifier-late.ngrok-free.dev/login/google",
+    );
+    final response = await http.post(
+      url,
+      headers: {"content-type": "application/json"},
+      body: jsonEncode({"id_token": idToken}),
+    );
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      final userData = User.fromJson(data['user'], data['access_token']);
+      await TokenService.saveToken(data['access_token'], data['refresh_token']);
+      return userData;
+    } else {
+      throw Exception("Failed to login with Google");
+    }
+  }
+
   Future<void> signInWithGoogle() async {
       
       

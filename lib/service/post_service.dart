@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:woc/model/post.dart';
+import 'package:woc/model/community/post.dart';
 import 'package:http/http.dart' as http;
 
 class PostService {

@@ -84,8 +84,8 @@ class AuthService {
     return CheckRegularExpression().checkEmail(email);
   }
 
-  void signInGoogle() {
-      final googleSignIn = GoogleSignIn.instance;
+  Future<void> signInWithGoogle() async {
+      
       
   }
 

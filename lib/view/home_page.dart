@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:woc/model/post.dart';
+import 'package:woc/model/community/post.dart';
 import 'package:woc/service/post_service.dart';
 import 'package:woc/theme/widget_color.dart';
 import 'package:woc/view/community/new_post.dart';

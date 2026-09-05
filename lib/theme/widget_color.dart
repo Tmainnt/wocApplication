@@ -25,4 +25,11 @@ class WidgetColor {
     Color.fromARGB(255, 105, 58, 233),
     Color.fromARGB(255, 105, 3, 95),
   ];
+
+  Color lightTheme() => Colors.white;
+  Color confirmButton() => Color.fromARGB(255, 97, 126, 255);
+  Color followButton() => Color.fromARGB(255, 97, 126, 255);
+  Color boxShadowColor() => const Color.fromARGB(255, 158, 158, 158);
+
+
 }

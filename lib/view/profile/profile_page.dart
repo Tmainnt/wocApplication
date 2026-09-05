@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:woc/provider/user_provider.dart';
 import 'package:woc/view/profile/edit_profile.dart';
 import 'package:woc/model/community/post.dart';
 import 'package:woc/model/user.dart';
-import 'package:woc/view/community/follow_list_page.dart';
+import 'package:woc/view/profile/follow_list_page.dart';
 import 'package:woc/theme/text_color.dart';
 import 'package:woc/theme/widget_color.dart';
 import 'package:woc/widget/community/create_posts.dart';
@@ -12,14 +14,7 @@ import 'package:woc/widget/community/report_user_dialog.dart';
 enum ImageType { profile, background }
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({
-    super.key,
-    required this.UID,
-    required this.currentUserRole,
-  });
-  final String UID;
-  final String currentUserRole;
-
+  const ProfilePage({ super.key });
   @override
   State<ProfilePage> createState() => ProfilePageState();
 }
@@ -28,31 +23,10 @@ class ProfilePageState extends State<ProfilePage> {
   final widgetColors = WidgetColor();
   final fontColor = TextColor();
 
-  late Future<UserModel> _userDataFuture;
-  late Future<List<Post>> _userPostsFuture;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadData();
-  }
-
-  void _loadData() {
-    _userDataFuture = firestoreService.getUserDataByUID(widget.UID);
-    _userPostsFuture = firestoreService.getPostByUID(widget.UID);
-  }
-
-  Future<void> _handleRefresh() async {
-    firestoreService.clearUserCacheByUID(widget.UID);
-    setState(() {
-      _loadData();
-    });
-
-    await Future.wait([_userDataFuture, _userPostsFuture]);
-  }
-
   @override
   Widget build(BuildContext context) {
+    User? user = Provider.of<UserProvider>(context, listen: true).queryUser;
+
     return Scaffold(
       body: FutureBuilder<UserModel>(
         future: _userDataFuture,
@@ -100,7 +74,7 @@ class ProfilePageState extends State<ProfilePage> {
                     decoration: BoxDecoration(
                       boxShadow: [
                         BoxShadow(
-                          color: widgetColors.boxShadowColor(),
+                          color: widgetColors.widgetShadow(),
                           blurRadius: 5,
                           offset: const Offset(0, 0),
                         ),

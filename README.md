@@ -8,3 +8,5 @@
 - pedometer
 - pedometer and workout history
 - setting: user can change font, language, theme color
+
+- Learn to using AI in project

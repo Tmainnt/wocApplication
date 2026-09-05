@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:woc/provider/user_provider.dart';
 import 'package:woc/service/auth_service.dart';
+import 'package:woc/service/google_service.dart';
 
 class LoginController extends ChangeNotifier {
 
@@ -33,6 +34,20 @@ class LoginController extends ChangeNotifier {
     }
     
     notifyListeners();
+    return false;
+  }
+
+  Future<bool> signInWithGoogleButtonAction() async {
+    final idToken = await GoogleService().signInWithGoogle();
+    if (idToken != null) {
+      try {
+        final userData = await AuthService().loginWithGoogle(idToken);
+        _userProvider.setUser(userData);
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }
     return false;
   }
 
